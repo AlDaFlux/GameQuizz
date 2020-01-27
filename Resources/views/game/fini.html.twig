@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+{% endblock %}
+{% block footer %}
+    
+        
+ {% endblock %}
+
+        {% block stylesheets %}
+              <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/quizz.css') }}" />
+              <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/confetti.css') }}" />
+              
+        {% endblock %}
+        {% block javascripts %}
+             <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+             <script src="{{ asset('bundles/aldafluxgamequizz/js/quizz.js') }}"></script>
+             <script src="{{ asset('bundles/aldafluxgamequizz/js/confetti.js') }}"></script>
+             
+ 
+        {% endblock %}
+
+{% block main %}
+    
+    <canvas id="confetti"></canvas>
+
+<div id="party-info">
+
+  <h2>Tableau termin&eacute; !</h2>
+  <p>F&eacute;licitations ! </p>
+  
+
+    <video id='Player' src="" class="" onclick="this.paused ? this.play() : this.pause();">    </video>
+
+        <div id='footer'>
+            <a href='index.html'  class='btn'>Retour &agrave; l'accueil</a>
+            <div id='reset-data'  class='btn'>Recommencer une partie</div>
+        </div>
+  
+</div>
+    
+    
+          
+        
+{% endblock %}
+
+{% block sidebar %}
+    {{ parent() }}
+{% endblock %}
+

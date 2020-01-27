@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+
+        <h1><a href='{{ path("algq_admin_game_show", {'id':question.game.id}) }}'>{{ question.game }}</a></h1>
+    
+    {%  if  question.board is not empty %}
+            <h2><a href='{{ path("algq_admin_board_show", {'id':question.board.id}) }}'>{{ question.board }}</a></h2>
+    {%  endif  %}
+            <h3><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a></h3>
+            
+            {# dump(question) #}
+            
+            <table class='table table-bordered'>
+                <tr><th>Ordre</th><td>{{ question.ordre}}</td></tr>
+                <tr><th>questionText</th><td>{{ question.questionText}}</td></tr>
+                <tr>
+                    <th>questionAudio</th>
+                    <td>
+                    {%  if  question.questionAudio is not empty %}
+                        <audio controls title='{{ question.questionAudio}}'>
+                            <source src="/{{ question.questionAudio}}" >
+                        </audio> 
+                    {%  endif  %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>questionVideo</th>
+                    <td>
+                    {%  if  question.questionVideo is not empty %}
+                        <video height='120px' controls title='{{ question.questionVideo}}'>
+                            <source src="/{{ question.questionVideo}}" >
+                        </video> 
+                    {%  endif  %}
+                    </td>
+                </tr>
+                
+                <tr><th>questionVideoYoutube</th><td>{{ question.questionVideoYoutube}}</td></tr>
+                <tr><th>published</th><td>{{ question.published}}</td></tr>
+            </table>
+                
+
+            <table class='table table-bordered'>
+            <tr>
+                <tr><th>answerText</th><td>{{ question.answerText}}</td></tr>
+                <tr><th>answerAudio</th>
+                    <td>{%  if  question.answerAudio is not empty %}
+                        <audio controls title='{{ question.answerAudio}}'>
+                            <source src="/{{ question.answerAudio}}" >
+                        </audio> 
+                     
+                    {%  endif  %}
+                    </td>
+                    </tr>
+                <tr><th>answerPlusText</th><td>{{ question.answerPlusText}}</td></tr>
+                <tr><th>answerPlusAudio</th>
+                    <td>{%  if  question.answerPlusAudio is not empty %}
+                        <audio controls title='{{ question.answerPlusAudio}}'>
+                            <source src="/{{ question.answerPlusAudio}}" >
+                        </audio> 
+
+                            <a href="/{{ question.answerPlusAudio}}" >{{ question.answerPlusAudio}}</a>
+                     
+                    {%  endif  %}
+                    </td>
+                    </tr>
+                
+                       <tr>
+                    <th>questionVideo</th>
+                    <td>
+                    {%  if  question.answerVideo is not empty %}
+                        <video height='120px' controls title='{{ question.answerVideo}}'>
+                            <source src="/{{ question.answerVideo}}" >
+                        </video> 
+                    {%  endif  %}
+                    </td>
+                </tr>
+                <tr><th>answerVideoYoutube</th><td>{{ question.answerVideoYoutube}}</td></tr>
+            </table>
+
+            
+            <table class='table table-bordered'>
+    {%  for  answer in question.answers %}
+        
+            <tr {%  if answer.isGood %}class='alert-success'{% endif  %}>
+                <td><a href='{{ path("algq_admin_answer_show", {'id':answer.id}) }}'>{{ answer.ordre}}</a></td>
+                <td {%  if answer.isGood %}class='alert-success'{% endif  %}>{{ answer.answerText}}</td>
+                <td>
+                    {%  if  answer.answerAudio is not empty %}
+                        <audio controls title='{{ answer.answerAudio}}'>
+                            <source src="/{{ answer.answerAudio}}" >
+                        </audio> 
+                    {%  endif  %}
+                </td>
+                <td>{{ answer.isGood}}</td>
+                
+            </tr>
+    {% else  %}
+        <div class='alert alert-danger'>
+            Aucune reponses !
+        </div>
+            
+    {%  endfor  %}
+    </table>
+
+    
+
+{% endblock %}
+
+{% block sidebar %}
+     {%  if question.deletable %}
+            {{ include('@AldafluxGameQuizz/admin/Question/_delete_form.html.twig') }}
+    {%  endif  %}
+    <p><br>
+    <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_question_edit", {'id':question.id}) }}'>Modifier</a>
+    <p><br>
+
+    <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_question_new_answer", {'id':question.id}) }}'>Nouvelle réponse</a>
+{% endblock %}

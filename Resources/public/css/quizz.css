@@ -1,0 +1,207 @@
+
+.videoContainer
+{
+    width:100%;
+}
+
+.videoContainer video
+{
+    width:100%;
+}
+
+#quit
+{
+    position: absolute;
+    bottom: 0px;
+    background-color: #03162a;
+}
+
+#game_title
+{
+    text-align: center;
+    color: rgb(18, 18, 82);
+    border-bottom: 3px solid rgb(246, 132, 8);
+    border-top: 3px solid rgb(246, 132, 8);
+}
+
+.answers 
+        {
+            padding: 1em 2em 1em 2em ;
+            text-align: left;
+            background-color: #03162a;
+        }
+     
+        
+        .answers li, #boards li, #board li
+        {
+            display: block;
+            padding: 0.8em 1.2em 0.8em 1.2em ;
+            color: #eeeeee;
+            border-radius: 10px;
+            margin-top: 8px;
+            font-size: 1.2em;
+            background-color: #143b6b;
+        }
+        
+        .answers li.nowplaying
+        {
+            color: #ffffff;
+            font-weight: bold;
+            border:1px solid #ffffff;
+        }
+        
+        #board 
+        {
+        }
+        #board li.question
+        {
+            margin: 8px;
+        }
+        
+        .question_lib
+        {
+            width: 85%;
+            display: table-cell;
+        }
+        
+        #board li .icon, #boards .icon
+        {
+            display: table-cell;
+            float: right;
+            width: 32px;
+            
+        }
+        
+        
+        
+        #question_answer
+        {
+            display: none;
+            padding: 1em 2em 1em 2em ;
+            color: #eeeeee;
+            border-radius: 10px;
+            margin: 12px;
+            font-size: 1.4em;
+            background-color: #143b6b;
+        }
+        
+        
+        #question_answer_plus
+        {
+            display: none;
+            padding: 1em 2em 1em 2em ;
+            color: #143b6b;
+            border-radius: 20px;
+            margin: 12px;
+            font-size: 1.1em;
+            border:6px solid #143b6b;
+        }
+        
+        
+        
+        .nonrepondu .answers li, #boards li , #board li 
+        {
+            cursor: pointer;
+        }
+        
+        .skip-video-question-intro
+        {
+            display: block;
+            cursor: pointer;
+            text-align: right;
+            padding: 1em 2em 1em 2em ;
+            color: #eeeeee;
+            border-radius: 5px;
+            margin: 4px;
+            font-size: 1.1em;
+            background-color: #143b6b;
+            
+        }
+
+        
+        
+        .btn
+        {
+            padding: 1em 2em 1em 2em ;
+            color: #eeeeee;
+            border-radius: 5px;
+            margin: 4px;
+            font-size: 1.1em;
+            background-color: #143b6b;
+            display: block;
+            cursor: pointer;
+        }
+        
+        a.btn
+        {
+            text-decoration: none;
+        }
+        
+        
+        
+        .btn_footer_right
+        {
+            text-align: right;
+            float: right;
+        }
+        
+        .btn_footer_left
+        {
+            text-align: left;
+            float: left;
+        }
+        
+        
+        
+        .answers li.false
+        {
+            background-color: #cc0000;
+        }
+        .answers li.good
+        {
+            background-color: #00cc00;
+        }
+        
+        
+        #question_answers 
+        {
+            background-color: #143b6b;
+            display: none;
+        }
+        
+        #question_answers .question
+        {
+            display: block;
+            padding: 1em 2em 1em 2em ;
+            color: #143b6b;
+            background-color: #eeeeee;
+            border-radius: 5px;
+            font-size: 1.5em;
+            border: 2px solid #143b6b;
+        }
+        
+        
+        #question_answers .question.nowplaying
+        {
+            background-color: #ffffff;
+            border:1px solid red;
+        }
+        
+        
+        
+        #question_answers .nonrepondu li:hover
+        {
+            color: #ffffff;
+            background-color: #040b0b;
+        }
+        
+        .video_reponse, #Player
+        {
+            display: none;
+        }
+        
+        
+        .dontshowfirst
+        {
+            display: none;
+        }

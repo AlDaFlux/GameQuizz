@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+
+        <h1><a href='{{ path("algq_admin_game_show", {'id':question.game.id}) }}'>{{ question.game }}</a></h1>
+    
+    {%  if  question.board is not empty %}
+            <h2><a href='{{ path("algq_admin_board_show", {'id':question.board.id}) }}'>{{ question.board }}</a></h2>
+    {%  endif  %}
+            <h3><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a></h3>
+            
+                
+            <table class='table table-bordered'>
+                <tr><th>Ordre</th><td>{{ answer.ordre}}</td></tr>
+                <tr><th>answerText</th><td>{{ answer.answerText}}</td></tr>
+                <tr><th>answerAudio</th><td>{{ answer.answerAudio}}</td></tr>
+                <tr><th>isGood</th><td>{{ answer.isGood}}</td></tr>
+            </table>
+    
+
+{% endblock %}
+
+{% block sidebar %}
+
+    {{ include('@AldafluxGameQuizz/admin/Answer/_delete_form.html.twig') }}
+    
+    <p><br>
+    <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_answer_edit", {'id':answer.id}) }}'>Modifier</a>
+    <p><br>
+
+
+{% endblock %}
