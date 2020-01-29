@@ -67,7 +67,7 @@
                     </tr>
                 
                        <tr>
-                    <th>questionVideo</th>
+                    <th>answerVideo</th>
                     <td>
                     {%  if  question.answerVideo is not empty %}
                         <video height='120px' controls title='{{ question.answerVideo}}'>
@@ -108,13 +108,15 @@
 
 {% endblock %}
 
-{% block sidebar %}
-     {%  if question.deletable %}
-            {{ include('@AldafluxGameQuizz/admin/Question/_delete_form.html.twig') }}
-    {%  endif  %}
-    <p><br>
-    <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_question_edit", {'id':question.id}) }}'>Modifier</a>
-    <p><br>
+{% block sidebar %} 
+    {% if is_granted('ROLE_GAME_EDITOR') %}
+        {%  if question.deletable and ROLE_GAME_EDITOR %}
+               {{ include('@AldafluxGameQuizz/admin/Question/_delete_form.html.twig') }}
+       {%  endif  %}
+       <p><br>
+       <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_question_edit", {'id':question.id}) }}'>Modifier</a>
+       <p><br>
 
-    <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_question_new_answer", {'id':question.id}) }}'>Nouvelle réponse</a>
+       <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_question_new_answer", {'id':question.id}) }}'>Nouvelle réponse</a>
+    {%  endif  %}
 {% endblock %}

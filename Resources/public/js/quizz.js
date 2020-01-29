@@ -23,17 +23,16 @@ var root;
 var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
 if ( app ) 
 {
-    
-    folder_sound="sons/";
-    game_json="game/game_1.json";
     root="";
-    
-} else {
-    folder_sound="/sons/";
-    game_json="/game/play/game_1.json";
+}
+else
+{
     root="/";
 }  
 
+
+game_json="/game/play/game_1.json";
+folder_sound=root+"sons/";
 
 function quitApp()
 {
@@ -41,8 +40,10 @@ function quitApp()
         navigator.app.exitApp();
     } else if (navigator.device) {
         navigator.device.exitApp();
-    } else {
-        window.close();
+    } else 
+    {
+        window.location.href = "/";  
+       
     }
 }
 
@@ -54,13 +55,13 @@ $( document ).ready(function() {
     {
         json_game_data=game;
         $('#game_title').html(game.name); 
-        afficeBoards();
+        afficheBoards();
     });
     
 });
 
 
-function afficeBoards()
+function afficheBoards()
 {
               $('#boards').html(""); 
               $('#quit').show(); 
@@ -358,9 +359,9 @@ $(function() {
                 player.src = folder_sound + 'bad_answer.wav';
                 goodReponse=false;
             }
-
-            window.setTimeout( swowReponse, 800 );
+            mode_player="";
             player.play();
+            window.setTimeout( swowReponse, 800 );
              
         }
     });
@@ -369,12 +370,15 @@ $(function() {
     {
         if (getCurrentQuestion().answerAudio)
         {
+            console.log("swowReponse -> playAnswerAudio");
            playAnswerAudio();
         }
         else 
         {    
+            console.log("swowReponse -> else answerAudio");
             if (getCurrentQuestion().answerHasVideo)
             {
+                console.log("swowReponse -> play answerVideo");
                 playAnswerVideo();
             }
             questionNextShow();
@@ -460,6 +464,8 @@ $(function() {
     {
         var srcson;
 
+
+        console.log("mode_player : " + mode_player);
 /*
         if (mode_player=="play_answer_video")
         {
@@ -473,20 +479,24 @@ $(function() {
             */ 
         if (mode_player=="play_answer_plus")
         {
+                console.log("play_answer_plus");
                 playAnswerVideo();
                 mode_player="play_answer_readed";
         }
         else  if (mode_player=="play_answer_reading")
         {
+            console.log("play_answer_reading");
             
             if (getCurrentQuestion().answerPlusAudio)
             {
+                console.log("answerPlusAudio");
                 mode_player="play_answer_plus";
                 Player.src = root + getCurrentQuestion().answerPlusAudio; 
                 Player.play();
             }
             else
             {
+                console.log("Pas answerPlusAudio");
                 mode_player="play_answer_readed";
                 playAnswerVideo();
                 questionNextShow();
@@ -528,9 +538,9 @@ $(function() {
         }
         else
         {
-            console.log("Répondu");
-           
+           console.log("NOTHING TO DO");
         }
+        
     }    
     
     

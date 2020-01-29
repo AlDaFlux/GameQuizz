@@ -1,14 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit / create Question{% endblock %}
+{% block title %}Edit / create link{% endblock %}
 
 {% block body %}
     <h1><a href='{{ path("algq_admin_game_show", {'id':game.id}) }}'>{{ game }}</a></h1>
-    {%  if  board is not empty %}
-            <h2><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'>{{ board }}</a></h2>
-    {%  endif  %}
-    <h1>New Question</h1>
-    
+    <h1>New Board</h1>
     {{ include('@AldafluxGameQuizz/admin/inc/_form.html.twig', {'button_label': 'Save'}) }}
     
 {% endblock %}

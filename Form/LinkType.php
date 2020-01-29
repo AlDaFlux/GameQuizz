@@ -2,7 +2,7 @@
 
 namespace Aldaflux\GameQuizzBundle\Form;
 
-use Aldaflux\GameQuizzBundle\Entity\Board;
+use Aldaflux\GameQuizzBundle\Entity\Link;
 
 
 
@@ -10,18 +10,20 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BoardType extends AbstractType
+class LinkType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');
-        $builder->add('ordre');
+        $builder->add('logo');
+        $builder->add('url');
     }
+    
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Board::class,
+            'data_class' => Link::class,
         ]);
     }
 }

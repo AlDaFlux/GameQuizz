@@ -50,6 +50,7 @@
 
 
 {% block sidebar %}
+ {% if is_granted('ROLE_GAME_EDITOR') %}
     {%  if board.deletable %}
             {{ include('@AldafluxGameQuizz/admin/Board/_delete_form.html.twig') }}
     {%  endif  %}
@@ -58,5 +59,6 @@
     <p><br>
         
 <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_new_question", {'id':board.id}) }}'>Nouvelle question</a>
+    {%  endif  %}
 
 {% endblock %}

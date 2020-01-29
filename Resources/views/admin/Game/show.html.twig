@@ -21,7 +21,8 @@
 {% endblock %}
 
 {% block sidebar %}
-    {%  if game.deletable %}
+ {% if is_granted('ROLE_GAME_EDITOR') %}
+     {%  if game.deletable %}
             {{ include('@AldafluxGameQuizz/admin/Game/_delete_form.html.twig') }}
     {%  endif  %}
     <p><br>
@@ -30,4 +31,5 @@
     <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_game_new_board", {'id':game.id}) }}'>Nouveau plateau  </a>
     <p><br>
     <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_game_json", {'id':game.id}) }}'>JSON</a>
+    {%  endif  %}
 {% endblock %}

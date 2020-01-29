@@ -9,11 +9,13 @@ use Aldaflux\GameQuizzBundle\Entity\Game;
 use Aldaflux\GameQuizzBundle\Entity\Board;
 use Aldaflux\GameQuizzBundle\Entity\Question;
 use Aldaflux\GameQuizzBundle\Entity\Answer;
+use Aldaflux\GameQuizzBundle\Entity\Link;
 
 use Aldaflux\GameQuizzBundle\Form\GameType;
 use Aldaflux\GameQuizzBundle\Form\BoardType;
 use Aldaflux\GameQuizzBundle\Form\QuestionType;
 use Aldaflux\GameQuizzBundle\Form\AnswerType;
+use Aldaflux\GameQuizzBundle\Form\LinkType;
 
 
 
@@ -111,6 +113,41 @@ class AdminController extends Controller
     
     
     
+    /**
+     * @Route("/game_{id}/new_link", name="algq_admin_game_new_link", methods={"GET","POST"})
+     */
+    public function GameNewLink(Game $game, Request $request) 
+    {
+        $link = new Link();
+        $link->setGame($game);
+        
+        $form = $this->createForm(LinkType::class, $link );
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($link);
+            $entityManager->flush();
+            return $this->redirectToRoute('algq_admin_link_show', ['id'=>$link->getId()]);
+        }
+        return $this->render('@AldafluxGameQuizz/admin/Link/newedit.html.twig', [
+            'game' => $game,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    
+    
+    /**
+     * @Route("/link_{id}", name="algq_admin_link_show", methods={"GET","POST"})
+     */
+    public function GameLinkShow(Link $link) 
+    {  
+        return $this->render('@AldafluxGameQuizz/admin/Link/show.html.twig', [
+            'game' => $link->getGame(),
+            'link' => $link 
+        ]);
+    }
+
     
     /**
      * @Route("/game_{id}/new_board", name="algq_admin_game_new_board", methods={"GET","POST"})
