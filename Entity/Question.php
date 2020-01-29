@@ -19,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 
 /**
- * @ORM\Entity(repositoryClass="Aldaflux\GameQuizzBundle\Repository\QuestionRepository")
+ * @ORM\Entity()
  * @ORM\Table(name="algq_question")
  */
 class Question implements \JsonSerializable
