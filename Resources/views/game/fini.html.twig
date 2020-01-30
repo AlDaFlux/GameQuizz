@@ -8,6 +8,7 @@
  {% endblock %}
 
         {% block stylesheets %}
+            {{ parent() }}
               <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/quizz.css') }}" />
               <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/confetti.css') }}" />
               

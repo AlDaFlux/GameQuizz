@@ -445,6 +445,7 @@ $(function() {
         nb_reponses = getCurrentQuestion().answers.length;
         current_reponse_play=1;
         enumeration=true;
+        mode_player="";
         if (getCurrentQuestion().questionAudio)
         {
             enumeration=true;
