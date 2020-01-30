@@ -8,6 +8,7 @@
  {% endblock %}
 
         {% block stylesheets %}
+            {{ parent() }}
               <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/bootstrap.css') }}" />
               <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/quizz.css') }}" />
         {% endblock %}
@@ -39,85 +40,39 @@
 
          Chargement....
          </div>
-        
-        
-        
     </div>
-    
         <div id='question_answers' class=' nonrepondu'>
             <div id='questionText' class='question '></div>
             <ul id='answers_proposal' class='answers'>
-                {#
-                {%  for answer in question.answers %}
-                    <li class='answer {% if answer.isGood %}isGood{% else%}isFalse{% endif %}'>{{ answer }}</li>
-                {% endfor  %}
-                #}
             </ul>
         </div>
-            
         <div id='question_answer'>
-            ----
         </div>
-            
         <div id='question_answer_plus'>
-            +++++
         </div>
-            
-            
         <video controls id="Player" src="" onclick="this.paused ? this.play() : this.pause();">Your browser does not support the video tag.</video>
- 
         <div id='video_question_player' class="videoContainer dontshowfirst">
             <video controls id="PlayerVideo" src="" onclick="this.paused ? this.play() : this.pause();">Your browser does not support the video tag.</video>
         </div>
-        
         <div id='video_question' class="videoContainer">
         </div>
-        
-    
-            
         <div id='video_reponse' class="videoContainer">
-
-            {#
-            <iframe width="100%" height="300px" src="https://www.youtube.com/embed/{{ question.answerVideo }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            #}
         </div>
-        
         <div id='footer'>
-
-
             <div  class='row'>
                 <div  class='col-md-6'>
                     <div  id='back-to-board' class='btn btn_footer btn_footer_left back-to-board dontshowfirst'>Retour <br>aux questions</div>
                 </div>
                 <div  class='col-md-6'>
-                    {#
-                    <div  id='question_next' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Question suivantes</div>
-                    <div  id='btn-fini' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Fin</div>
-                    #}
                     <div  id='question_next' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Question <br>suivante</div>
                     <div  id='btn-fini' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Fin</div>
                 </div>
             </div>
-
             <p><br>
             <a id='back-to-home'  href='index.html'  class='btn dontshowfirst'>Retour à l'accueil</a>
             <p><br>
             <div  id='reset-data' class='dontshowfirst'>Recommencer le jeu</div>
         </div>
-
-                    {#
-                    
-            <div  class='row'>
-                <div  class='col-md-6'>
-                    <div class='btn btn-block btn-primary'>Retour aux questions</div>
-                </div>
-                <div class='col-md-6'>
-                    <div class='btn btn-block btn-primary'>Retour aux questions</div>
-                </div>
-            </div>
-                #}
-
-                    
                     
 {% endblock %}
 
