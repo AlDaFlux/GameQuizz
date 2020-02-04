@@ -41,7 +41,7 @@ class GameController extends Controller
      */
     public function index2Action()
     {
-        return $this->render('@AldafluxGameQuizz/game/index.html.twig');
+        return $this->render('@AldafluxGameQuizz/game/game/index.html.twig');
     }
         
     /**

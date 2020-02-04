@@ -68,6 +68,7 @@ function afficheBoards()
 {
               $('#boards').html(""); 
               $('#quit').show(); 
+              $('#presentation').show(); 
               
                 json_game_data.boards.forEach(function(board) 
                 {
@@ -155,6 +156,7 @@ $(function() {
         mode_player="";
         Player.pause();
         
+        $('#presentation').hide();
         $('#quit').hide();
         $('#back-to-board').hide();
         $('#question_next').hide();
