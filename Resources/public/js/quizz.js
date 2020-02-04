@@ -31,7 +31,7 @@ else
 }  
 
 
-game_json="/game/play/game_1.json";
+game_json=root+ "game/play/game_1.json";
 folder_sound=root+"sons/";
 
 function quitApp()
@@ -56,7 +56,10 @@ $( document ).ready(function() {
         json_game_data=game;
         $('#game_title').html(game.name); 
         afficheBoards();
-    });
+    }).fail(function() {
+    alert( "Erreur json non trouvé : " + game_json );
+  });
+ 
     
 });
 
@@ -212,7 +215,7 @@ $(function() {
             playVideoPlayer(root + getCurrentQuestion().questionVideo);
             goodReponse=false;
         }
-        $('#video_question').append("<div class='skip-video-question-intro'>Passer la video</div>");
+        $('#video_question').append("<div class='skip-video-question-intro'>Passer à   la question</div>");
     }
     
     
