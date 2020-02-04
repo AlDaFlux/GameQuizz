@@ -28,8 +28,14 @@ body {
   left: 0;
   right: 0;
   text-align: center;
-  width: 400px;
+  width: 600px;
   z-index: 2;
   color: gray;
 }
 
+#party-info-plus
+{
+  z-index: 3;
+ 
+    
+}

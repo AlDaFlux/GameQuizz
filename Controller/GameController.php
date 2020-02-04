@@ -49,7 +49,7 @@ class GameController extends Controller
      */
     public function finiAction()
     {
-        return $this->render('@AldafluxGameQuizz/game/fini.html.twig');
+        return $this->render('@AldafluxGameQuizz/game/endpage/fini.html.twig');
     }
     
     
