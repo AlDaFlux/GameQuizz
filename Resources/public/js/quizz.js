@@ -55,6 +55,7 @@ $( document ).ready(function() {
     {
         json_game_data=game;
         $('#game_title').html(game.name); 
+        $('#game_subtitle').html(game.soustitre); 
         afficheBoards();
     }).fail(function() {
     alert( "Erreur json non trouvé : " + game_json );
@@ -72,7 +73,7 @@ function afficheBoards()
               
                 json_game_data.boards.forEach(function(board) 
                 {
-                    $('#boards').append("<li data-ordre=" + board.ordre +" class='board_select'>" + board.name); 
+                    $('#boards').append("<li data-ordre=" + board.ordre +" class='board_select'> &nbsp; <i class='fa fa-play'></i>" + board.name+"  &nbsp; <i class='fa fa-play'></i></li>"); 
 
 
 

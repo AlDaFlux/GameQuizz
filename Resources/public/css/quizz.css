@@ -16,13 +16,27 @@
     background-color: #03162a;
 }
 
-#game_title
+
+
+h1#game_title
 {
     text-align: center;
     color: rgb(18, 18, 82);
-    border-bottom: 3px solid rgb(246, 132, 8);
     border-top: 3px solid rgb(246, 132, 8);
+    margin-bottom: 0px;
 }
+
+#game_subtitle
+{
+    text-align: center;
+    font-size: 1em;
+    color: rgb(18, 18, 82);
+    border-bottom: 3px solid rgb(246, 132, 8);
+    margin-top: 0px;
+    padding-bottom: 4px;
+}
+
+
 
 .answers 
         {
@@ -42,6 +56,35 @@
             font-size: 1.2em;
             background-color: #143b6b;
         }
+        
+        #boards li
+        {
+            height: 120px;
+            text-align: center;
+            padding-top: 40px;
+        }
+        
+        
+        #boards li
+        {
+            animation: colorchange 20s; /* animation-name followed by duration in seconds*/
+            
+        }
+        
+         
+
+    @keyframes colorchange
+    {
+      0%   {color: white;}
+      10%  {color: red;}
+      20%   {color: white;}
+      30%  {color: red;}
+      40%   {color: white;}
+      50%  {color: red;}
+      100% {color: white;}
+    }
+
+        
         
         .answers li.nowplaying
         {

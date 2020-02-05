@@ -41,6 +41,14 @@ class Game implements \JsonSerializable
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $soustitre;
+    
+
+    /**
      * @ORM\OneToMany(targetEntity="Question", mappedBy="game")
      * @ORM\OrderBy({"ordre": "ASC"})
      */
@@ -87,6 +95,7 @@ class Game implements \JsonSerializable
         return [
             'id'           => $this->id,
             'name'        => $this->name,
+            'soustitre'        => $this->soustitre,
             'boards'  => $this->boards,
         ];
     }
@@ -108,6 +117,19 @@ class Game implements \JsonSerializable
         return $this;
     }
  
+    public function getSoustitre()
+    {
+        return $this->soustitre;
+    }
+
+    public function setSoustitre($soustitre)
+    {
+        $this->soustitre = $soustitre;
+        return $this;
+    }
+ 
+    
+    
     /**
      * @return Collection|Answer[]
      */
