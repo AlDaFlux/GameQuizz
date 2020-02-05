@@ -7,6 +7,7 @@ body {
   overflow: hidden;
 }
 
+
 #confetti {
   position: relative;
   top:0;
@@ -32,6 +33,17 @@ body {
   z-index: 2;
   color: gray;
 }
+
+@media only screen and (max-width: 767px) {
+    #party-info 
+    {
+        padding: 0px;
+        width:100%;
+    }
+}
+
+
+
 
 #party-info-plus
 {
