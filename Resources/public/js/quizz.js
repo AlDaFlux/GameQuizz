@@ -1,23 +1,44 @@
 
-
-var folder_sound;
-var game_json;
-
-
-
-var json_game_data;
-var question_id;
-//var question_ordre;
-var plateau_id ;
-var enumeration=false;
-var goodReponse;
-var nb_reponses;
-
-var mode_player;
+    
+    var Player = document.getElementById('Player');
+    var PlayerVideo = document.getElementById('PlayerVideo');
+    var repondu=false;
+    var playlist=null;
+    
 
 
-var current_reponse_play;
-var root;
+
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+
+
+    $.getJSON(game_json, function(game)
+    {
+        json_game_data=game;
+        /*
+        $('#game_title').html(game.name); 
+        $('#game_subtitle').html(game.soustitre); 
+        */
+        if (question_id>0)
+        {
+            $( "#post_presentation" ).hide();
+            playQuestion();
+        }
+        else
+        {
+            afficheBoards();
+        }
+    }).fail(function() {
+    alert( "Erreur json non trouvé : " + game_json );
+  });
+ 
+    
+});
+
+
+
+
 
 
 var app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
@@ -31,105 +52,93 @@ else
 }  
 
 
-game_json=root+ "game/play/game_1.json";
 folder_sound=root+"sons/";
 
 function quitApp()
 {
+
+    cordova.plugins.exit();
+    /*
     if (navigator.app) {
-        navigator.app.exitApp();
-    } else if (navigator.device) {
+    }
+    else if (navigator.device) {
         navigator.device.exitApp();
     } else 
     {
         window.location.href = "/";  
-       
     }
+    */
 }
-
-$( document ).ready(function() {
-    console.log( "ready!" );
-
-
-    $.getJSON(game_json, function(game)
-    {
-        json_game_data=game;
-        $('#game_title').html(game.name); 
-        $('#game_subtitle').html(game.soustitre); 
-        afficheBoards();
-    }).fail(function() {
-    alert( "Erreur json non trouvé : " + game_json );
-  });
- 
-    
-});
 
 
 function afficheBoards()
 {
+     $('#skip-video-question-intro').hide();
+     $('#appli-titre').show();
+     
               $('#boards').html(""); 
               $('#quit').show(); 
               $('#presentation').show(); 
               
                 json_game_data.boards.forEach(function(board) 
                 {
-                    $('#boards').append("<li data-ordre=" + board.ordre +" class='board_select'> &nbsp; <i class='fa fa-play'></i>" + board.name+"  &nbsp; <i class='fa fa-play'></i></li>"); 
-
-
-
-                board.questions.forEach(function(question) 
-                {
-            
-                    if (localStorage.getItem('question' + question.id))
+                    $('#boards').append("<li data-id=" + board.id +" class='board_select'> &nbsp; <i class='fa fa-play'></i>" + board.name+"  &nbsp; <i class='fa fa-play'></i></li>"); 
+                    board.questions.forEach(function(question) 
                     {
-                        if (localStorage.getItem('question' + question.id)=="true")
+                        if (localStorage.getItem('question' + question.id))
                         {
-                           icon_src=root +"img/icons/answer_good.png";
+                            if (localStorage.getItem('question' + question.id)=="true")
+                            {
+                               icon_src=icon_good;
+                            }
+                            else
+                            {
+                                icon_src=icon_false;
+                            }
                         }
                         else
                         {
-                           icon_src=root +"img/icons/answer_false.png";
-                        }
-                    }
-                    else
-                    {
-                        icon_src=root +"img/icons/answer_no.png";
-                    
-                    } 
-                    $('#boards').append("<img class='icon' src='"+ icon_src + "'>"); 
-
+                            icon_src=icon_answer_no;
+                        } 
+                        $('#boards').append("<img class='icon' src='"+ icon_src + "'>"); 
+                    });
+                    $('#boards').append("</li>"); 
                 });
-
-
-
-                
-                $('#boards').append("</li>"); 
-
-                });
-    
 }
 
-$(function() {
-    
-    var Player = document.getElementById('Player');
-    var PlayerVideo = document.getElementById('PlayerVideo');
-    var repondu=false;
-    var playlist=null;
-    
 
-    
-    function getCurrentBoard()
+    function playQuestion()
     {
-        var tmp_board=false;
-        json_game_data.boards.forEach(function(board) 
+        $('#question_title').html(getCurrentQuestion().name); 
+        
+        $( "#question_answer" ).html("");
+        $( "#question_answer" ).hide();
+        $( "#question_answer_plus" ).hide();
+        $('#question_next').hide();
+        $('#back-to-board').show();
+        $('#skip-video-question-intro').hide();
+         
+/*         $('#back-to-board').hide();
+ * 
+ */
+        $('#board').hide();
+        $('#back-to-home').hide();
+
+
+
+
+        if (getCurrentQuestion().questionHasVideo)
         {
-            if (board.ordre===plateau_id)
-            {
-                tmp_board = board;
-            }
-        });
-        return(tmp_board);
+            playQuestionVideo();
+        }
+        else
+        {
+            afficheQuestionReponse();
+        }
+        
     }
+    
+    
     
     
     function getCurrentQuestion()
@@ -146,23 +155,49 @@ $(function() {
     }
     
     
+    
+    function getCurrentBoard()
+    {
+        var tmp_board=false;
+        json_game_data.boards.forEach(function(board) 
+        {
+            if (board.id===plateau_id)
+            {
+                tmp_board = board;
+            }
+        });
+        return(tmp_board);
+    }
+    
+    
     function resetData()
     {
       localStorage.clear();
     }
-     
+      
     
     function playBoard()
     {
+
+        $('#appli-titre').hide();
+
+
         mode_player="";
         Player.pause();
         
+         $('#skip-video-question-intro').hide();
+         
         $('#presentation').hide();
+
+        $('#question_title').html(); 
+
         $('#quit').hide();
         $('#back-to-board').hide();
         $('#question_next').hide();
         $('#boards').hide();
         $('#question_answer').hide();
+        $('#question_answer_plus').hide();
+        $('#question_answers').hide();
         $('#board_title').html(getCurrentBoard().name); 
         $('#board_title').data("board_id",getCurrentBoard().id); 
         $('#board').html(""); 
@@ -173,18 +208,17 @@ $(function() {
             {
                 if (localStorage.getItem('question' + question.id)=="true")
                 {
-                   icon_src=root +"img/icons/answer_good.png";
+                   icon_src=icon_good;
                 }
                 else
                 {
-                   icon_src=root +"img/icons/answer_false.png";
+                   icon_src=icon_false;
                 }
             }
             else
             {
-                icon_src=root +"img/icons/answer_no.png";
+                icon_src=icon_answer_no;
             }
-            
             console.log(localStorage.getItem('question' + question.id));
             console.log(localStorage);
             
@@ -218,7 +252,7 @@ $(function() {
             playVideoPlayer(root + getCurrentQuestion().questionVideo);
             goodReponse=false;
         }
-        $('#video_question').append("<div class='skip-video-question-intro'>Passer à   la question</div>");
+        $('#skip-video-question-intro').show();
     }
     
     
@@ -239,6 +273,8 @@ $(function() {
     
     function afficheQuestionReponse()
     {
+        $('#skip-video-question-intro').hide();
+                
         var class_answer;
 
         $('#questionText').html(getCurrentQuestion().questionText); 
@@ -271,7 +307,8 @@ $(function() {
                 
     $('#boards').on('click', 'li', function(ev) 
     {
-        plateau_id =$(this).data("ordre");
+        plateau_id =$(this).data("id");
+        
         playBoard();
     }); 
     
@@ -281,27 +318,7 @@ $(function() {
     }); 
     
     
-    function playQuestion()
-    {
-        $('#question_title').html(getCurrentQuestion().name); 
-        $( "#question_answer" ).html("");
-        $( "#question_answer" ).hide();
-        $( "#question_answer_plus" ).hide();
-        $('#question_next').hide();
-        $('#back-to-board').hide();
-        $('#board').hide();
-        $('#back-to-home').hide();
 
-        if (getCurrentQuestion().questionHasVideo)
-        {
-            playQuestionVideo();
-        }
-        else
-        {
-            afficheQuestionReponse();
-        }
-        
-    }
     
     $('#footer').on('click', '#btn-fini', function(ev) 
     {
@@ -336,10 +353,10 @@ $(function() {
         stopAllVideos();
     });
     
-    $('.body-container').on('click', '.back-to-board', function(ev) 
+    $('.body-container').on('click', '#back-to-board', function(ev) 
     {
-        playBoard();
         stopAllVideos();
+        playBoard();
     });
 
     
@@ -355,14 +372,14 @@ $(function() {
             if ($(this).data("gof"))
             {
                $(this).addClass("good");
-                player.src = folder_sound + 'FX_Woosh_1.wav';
+                player.src = answer_good_sound ;
                 goodReponse=true;
             }
             else
             {
                 $('.answer.isGood').addClass("good");
                 $(this).addClass("false");
-                player.src = folder_sound + 'bad_answer.wav';
+                player.src = answer_bad_sound;
                 goodReponse=false;
             }
             mode_player="";
@@ -428,8 +445,10 @@ $(function() {
     
     function srcNumberAudio(number)
     {
-        return(folder_sound + "numeros/" + number + ".wav");
+        return(folder_sound + "numeros/" + number + ".mp3");
     }
+    
+    
     function playNumberAudio(number)
     {
             enumeration=false;
@@ -551,6 +570,3 @@ $(function() {
     }    
     
     
-});
-
-

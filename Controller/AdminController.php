@@ -218,8 +218,28 @@ class AdminController extends Controller
      */
     public function BoardShowAction(Board $board)
     {
+        
         return $this->render('@AldafluxGameQuizz/admin/Board/show.html.twig', ['board'=>$board]);
     }
+    
+    /**
+     * @Route("/board_{id}/reorder", methods={"GET"}, name="algq_admin_board_reorder")
+     */
+    public function BoardReorderAction(Board $board)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $i=0;
+        foreach ($board->getQuestions() as $question)
+        {
+            $i++;
+            $question->SetOrdre($i);
+            $entityManager->persist($question);
+        }
+        $entityManager->flush();
+        $this->addFlash('success', 'Les questions ont été réordonnées');
+        return $this->redirectToRoute('algq_admin_board_show', ['id'=>$board->getId()]);
+    }
+    
     
     
     
@@ -258,6 +278,70 @@ class AdminController extends Controller
         return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question]);
     }
      
+
+    /**
+     * @Route("/question_{id}/reorder", methods={"GET"}, name="algq_admin_question_reorder")
+     */
+    public function QuestionReorderAction(Question $question)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $i=0;
+        foreach ($question->getAnswers() as $answer)
+        {
+            $i++;
+            $answer->SetOrdre($i);
+            $entityManager->persist($answer);
+            $entityManager->flush();
+        }
+        $this->addFlash('success', 'Les réponses ont été réordonnées');
+        return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
+    }
+    
+    
+    /**
+     * @Route("/reorderall", methods={"GET"}, name="algq_admin_")
+   
+    public function reodredAll()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        
+        foreach ($this->GetEm()->getRepository(Question::class)->findAll() as $question)
+        {
+            $iiis=range(1, $question->getAnswersCount());
+            shuffle($iiis); 
+            foreach ($question->getAnswers() as $answer)
+            {
+                $answer->setOrdre(array_pop($iiis));
+                $entityManager->persist($answer);
+            }
+            $entityManager->flush();
+        }
+        $this->addFlash('success', 'Les réponses ont été mélangées');
+        return $this->redirectToRoute('algq_admin_homepage');
+    }*/
+    
+    /**
+     * @Route("/question_{id}/shuffle", methods={"GET"}, name="algq_admin_question_shuffle")
+     */
+    public function QuestionShuffleAction(Question $question)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $iiis=range(1, $question->getAnswersCount());
+        shuffle($iiis); 
+
+        foreach ($question->getAnswers() as $answer)
+        {
+            $answer->setOrdre(array_pop($iiis));
+            $entityManager->persist($answer);
+            $entityManager->flush();
+        }
+        $this->addFlash('success', 'Les réponses ont été mélangées');
+        return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
+    }
+    
+    
+    
+    
     /**
      * @Route("/question_{id}/edit", methods={"GET","POST"}, name="algq_admin_question_edit")
      */
@@ -331,8 +415,7 @@ class AdminController extends Controller
     {
         return $this->render('@AldafluxGameQuizz/admin/Answer/show.html.twig', ['answer'=>$answer, 'question'=>$answer->getQuestion()]);
     }
-         
-    
+             
       
     /**
      * @Route("/answer_{id}/edit", methods={"GET","POST"}, name="algq_admin_answer_edit")

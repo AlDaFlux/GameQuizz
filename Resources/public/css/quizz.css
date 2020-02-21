@@ -1,5 +1,33 @@
 
+#board_title
+{
+    margin-top: 5px;
+    text-align: center;
+    border-bottom: 2px solid rgb(246, 132, 8);
+}
+#question_title
+{
+    margin-top: 0px;
+    text-align: center;
+}
 
+.centerwmargin
+{
+    width: 80%;
+    margin: auto;
+}
+
+
+
+ul
+{
+    padding: 0px;
+}
+
+li
+{
+    margin:0px;
+}
 
 .center
 {
@@ -18,20 +46,18 @@
     width:100%;
 }
 
-#quit
+
+.page-header
 {
-    position: absolute;
-    bottom: 0px;
-    background-color: #03162a;
+    border-top: 3px solid rgb(246, 132, 8);
+    border-bottom: 3px solid rgb(246, 132, 8);
 }
-
-
+    
 
 h1#game_title
 {
     text-align: center;
     color: rgb(18, 18, 82);
-    border-top: 3px solid rgb(246, 132, 8);
     margin-bottom: 0px;
 }
 
@@ -40,7 +66,6 @@ h1#game_title
     text-align: center;
     font-size: 1em;
     color: rgb(18, 18, 82);
-    border-bottom: 3px solid rgb(246, 132, 8);
     margin-top: 0px;
     padding-bottom: 4px;
 }
@@ -65,6 +90,12 @@ h1#game_title
             font-size: 1.2em;
             background-color: #143b6b;
         }
+        
+        #boards li
+        {
+            font-size: 1.5em;
+        }
+        
         
         #boards li
         {
@@ -197,6 +228,14 @@ h1#game_title
             text-decoration: none;
         }
         
+        .btn:hover
+        {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+        
+        
+        
         
         
         .btn_footer_right
@@ -226,8 +265,11 @@ h1#game_title
         #question_answers 
         {
             background-color: #143b6b;
+            display: block;
+            width: 100%;
             display: none;
         }
+        
         
         #question_answers .question
         {
@@ -265,3 +307,79 @@ h1#game_title
         {
             display: none;
         }
+
+
+.chevrons
+{
+    font-size: 1.7em;
+    font-weight: bold;
+}
+
+
+
+
+        
+/*@media only screen and (max-width: 767px) */
+@media only screen and (max-width: 700px) 
+{
+        .answers li,  #board li
+        {
+            padding: 0.9em 1.1em 0.9em 1.1em ;
+            border-radius: 5px;
+            margin-top: 6px;
+            font-size: 0.8em;
+        }
+
+        .btn
+        {
+            padding: 0.9em 1.1em 0.9em 1.1em ;
+            border-radius: 2px;
+            font-size: 0.8em;
+        }
+
+}
+        
+        
+@media only screen and (max-height: 700px) 
+{
+       .answers li
+       {
+           padding:6px;
+           font-size: 0.7em;
+       }
+       .answers
+       {
+           padding:6px;
+       }
+       #question_answers .question
+       {
+           padding:6px;
+       }
+
+        container 
+        {
+            margin-right:  0px;
+            margin-left: 0px;
+        }
+}
+        
+
+
+@media (orientation: landscape) 
+{
+  
+  .videoContainer
+  {
+       width: 60%;
+      margin-right:  auto;
+      margin-left: auto;
+  }
+
+  
+    .player 
+    {
+    }
+}
+    
+
+        

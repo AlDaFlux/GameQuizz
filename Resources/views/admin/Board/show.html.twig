@@ -9,42 +9,10 @@
     <br>
     <p>
     <br>
-     <table class='table table-bordered'>
-                <thead>
-                    <tr>
-                        <th>Ordre</th>
-                        <th>Nom</th>
-                        <th>Question</th>
-                        <th>NbReponses</th>
-                        <th>Publiée</th>
-                        <th>Question au</th>
-                    </tr>
-                </thead>
-                <tbody>
-        {%  for  question in board.questions %}
-                    <tr>
-                        <td>{{ question.ordre}}</td>
-                        <td><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question}}</a></td>
-                        <td>{{ question.questionText}}</td>
-                        <td>{{ question.answersCount}}</td>
-                        <td>{{ question.published}}</td>
-                            {%  if  question.questionAudio is not empty %}
-                                <td>
-                                    <audio width='30px' controls title='{{ question.questionAudio}}'><source src="/{{ question.questionAudio}}" ></audio> 
-                                </td>
-                            {%  else %}
-                                <td class='alert-danger'></td>
-                            {%  endif  %}
-                            {%  if  question.answerAudio is not empty %}
-                                <td><audio width='30px' controls title='{{ question.answerAudio}}'><source src="/{{ question.answerAudio}}" ></audio> </td>
-                            {%  else   %}
-                                <td class='alert-danger'></td>
-                            {%  endif  %}
-                    </tr>
-        {%  endfor  %}
-                </tbody>
-    </table>
-                
+            {{ include('@AldafluxGameQuizz/admin/Board/_tableau.html.twig') }}
+    
+    
+
 
 {% endblock %}
 
@@ -55,10 +23,14 @@
             {{ include('@AldafluxGameQuizz/admin/Board/_delete_form.html.twig') }}
     {%  endif  %}
     <p><br>
+    <p><br>
     <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_board_edit", {'id':board.id}) }}'>Modifier</a>
     <p><br>
         
-<a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_new_question", {'id':board.id}) }}'>Nouvelle question</a>
+    <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_new_question", {'id':board.id}) }}'>Nouvelle question</a>
+        {%  if not board.QuestionsAreOrdered%}
+            <a class="btn btn-lg btn-block btn-danger"  href='{{ path("algq_admin_board_reorder", {'id':board.id}) }}'>Réordonner les questions</a>
+        {%  endif  %}
     {%  endif  %}
 
 {% endblock %}

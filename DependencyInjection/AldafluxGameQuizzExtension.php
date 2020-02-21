@@ -22,6 +22,11 @@ class AldafluxGameQuizzExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        /*
+        $container->setParameter( 'in_da_flux_ids_sante.application_name', $config[ 'application_name' ] );
+        $container->setParameter( 'in_da_flux_ids_sante.active', $config[ 'active' ] );
+        */
+        
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

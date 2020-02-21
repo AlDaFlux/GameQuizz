@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />        
+            {% block stylesheets %}
+            {% endblock %}
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <title>{{ game }}</title>
+    </head>
+ 
+    <body id="homepage" class="body-container">
+        {% block header %}
+        {% endblock %}
+
+{% block body %}
+{% endblock %}
+
+{% block footer %}
+ {% endblock %}
+
+
+<script type="text/javascript" src="cordova.js"></script>
+{% block javascripts %}
+{% endblock %}
+
+
+ 
+
+</body>
+</html>
+
+
+ 

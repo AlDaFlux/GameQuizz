@@ -138,6 +138,23 @@ class Board implements \JsonSerializable
         return $this->questions;
     }
 
+    
+    public function getQuestionsAreOrdered()
+    {
+        $i=0;
+        foreach ($this->getQuestions() as $question)
+        {
+            $i++;
+            if (! ($question->GetOrdre()==$i))
+            {
+                return(false);
+            }
+        }
+        return(true);
+    }
+
+    
+    
     public function addQuestion(Question $question): self
     {
         if (!$this->questions->contains($question)) {

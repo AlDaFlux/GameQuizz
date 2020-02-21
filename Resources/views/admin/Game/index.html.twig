@@ -7,12 +7,14 @@
     <h2><a href='{{ path("algq_admin_game_show", {'id':game.id}) }}'>{{ game }}</a></h2>
     <ul>
     {%  for  board in game.boards %}
-        <li>{{ board }}
+        <li><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'>{{ board }}</a></li>
+        {%  if board.questions | length <=20 %}
         <ul>
         {%  for  question in board.questions %}
             <li><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a>
         {%  endfor  %}
         </ul>
+        {%  endif %}
     {%  endfor  %}
     </ul>
 {%  endfor  %}
@@ -23,7 +25,9 @@
 {% endblock %}
 
 {% block sidebar %}
-    <a class='btn btn-primary  btn-block' href='{{ path("algq_admin_game_new")}}'>Nouveau Jeu</a>
+     {% if is_granted('ROLE_GAME_EDITOR') %}
+        <a class='btn btn-primary  btn-block' href='{{ path("algq_admin_game_new")}}'>Nouveau Jeu</a>
+    {%  endif  %}
 {% endblock %}
 
 

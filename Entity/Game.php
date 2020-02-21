@@ -19,7 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Aldaflux\GameQuizzBundle\Repository\GameRepository")
  * @ORM\Table(name="algq_game")
  */
 class Game implements \JsonSerializable
@@ -40,6 +40,16 @@ class Game implements \JsonSerializable
      */
     private $name;
 
+    
+    
+    
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
+    
+    
     /**
      * @var string
      *
@@ -242,5 +252,17 @@ class Game implements \JsonSerializable
     }
     
     
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
  
 }

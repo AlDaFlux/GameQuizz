@@ -17,9 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 
-
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Aldaflux\GameQuizzBundle\Repository\QuestionRepository")
  * @ORM\Table(name="algq_question")
  */
 class Question implements \JsonSerializable
@@ -104,7 +103,6 @@ class Question implements \JsonSerializable
     
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * 
      * @Gedmo\Slug(fields={"name"})
      */
     private $slug;
@@ -332,6 +330,22 @@ class Question implements \JsonSerializable
     public function getAnswersCount(): int
     {
         return count($this->answers);
+    }
+
+
+    
+    public function getAnswersAreOrdered()
+    {
+        $i=0;
+        foreach ($this->getAnswers() as $answer)
+        {
+            $i++;
+            if (! ($answer->GetOrdre()==$i))
+            {
+                return(false);
+            }
+        }
+        return(true);
     }
 
     

@@ -11,7 +11,7 @@
 namespace Aldaflux\GameQuizzBundle\Repository;
 
 
-use Aldaflux\GameQuizzBundle\Entity\Question;
+use Aldaflux\GameQuizzBundle\Entity\Game;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -26,23 +26,20 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @author Ryan Weaver <weaverryan@gmail.com>
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  */
-class QuestionRepository extends ServiceEntityRepository
+class GameRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Question::class);
+        parent::__construct($registry, Game::class);
     }
-    /*
-    public function findAll()
+
+    public function findDefault()
     {
-        $qb = $this->createQueryBuilder('q');
+        $qb = $this->createQueryBuilder('g');
         return $qb->orderBy('g.id', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
      
     }
-    
-    */
-    
 }

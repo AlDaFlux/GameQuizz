@@ -1,0 +1,23 @@
+{% extends '@AldafluxGameQuizz/base_blank.html.twig' %}
+
+        {% block stylesheets %}
+              <link rel="stylesheet" href="css/quizz.css" />
+              <link rel="stylesheet" href="css/bootstrap.css" />
+              <link rel="stylesheet" href="css/confetti.css" />
+              
+        {% endblock %}
+        {% block javascripts %}
+             <script src="js/jquery-3.4.1.min.js"></script>
+             <script src="js/quizz.js"></script>
+             <script src="js/init.js"></script>
+             <script src="js/confetti.js"></script>
+        {% endblock %}
+
+{% block body %}
+    
+    <canvas id="confetti"></canvas>
+
+    {{ include('@AldafluxGameQuizz/game/endpage/_congrats.html.twig') }}
+
+     
+{% endblock %} 

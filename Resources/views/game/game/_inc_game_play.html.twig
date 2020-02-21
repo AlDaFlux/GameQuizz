@@ -1,12 +1,15 @@
-    <div class="page-header">
-        <h1 id='game_title'></h1>
-        <h2 id='game_subtitle'></h2>
-    </div>
 
-    <div id="presentation">
+<div class="page-header" id="appli-titre">
+        <h1 id='game_title'>{{ game.name }}</h1>
+        <h2 id='game_subtitle'>{{ game.soustitre }}</h2>
+</div>
+
+    <div id="presentation" class='centerwmargin'>
         <ul id="boards">
         </ul>
-        {{ include('@AldafluxGameQuizz/game/game/_inc_post_presentation.html.twig') }}
+            <div id="post_presentation">
+                {{ include('@AldafluxGameQuizz/game/game/_inc_post_presentation.html.twig') }}
+            </div>
     </div>
     <div id="tableau">
         <h2 id='board_title'></h2>
@@ -26,9 +29,11 @@
         </div>
         <div id='question_answer_plus'>
         </div>
-        <video controls id="Player" src="" onclick="this.paused ? this.play() : this.pause();">Your browser does not support the video tag.</video>
+
+        <video class='player' webkit-playsinline playsinline  controls id="Player" src="" onclick="this.paused ? this.play() : this.pause();">Your browser does not support the video tag.</video>
+        
         <div id='video_question_player' class="videoContainer dontshowfirst">
-            <video controls id="PlayerVideo" src="" onclick="this.paused ? this.play() : this.pause();">Your browser does not support the video tag.</video>
+            <video class='player'  playsinline  webkit-playsinline controls id="PlayerVideo" src="" onclick="this.paused ? this.play() : this.pause();">Your browser does not support the video tag.</video>
         </div>
         <div id='video_question' class="videoContainer">
         </div>
@@ -37,15 +42,16 @@
         <div id='footer'>
             <div  class='row'>
                 <div  class='col-md-6'>
-                    <div  id='back-to-board' class='btn btn_footer btn_footer_left back-to-board dontshowfirst'>Retour <br>aux questions</div>
+                    <div  id='back-to-board' class='btn btn_footer btn_footer_left back-to-board dontshowfirst'><span class='chevrons'>&lsaquo;</span> Retour  aux questions</div>
                 </div>
                 <div  class='col-md-6'>
-                    <div  id='question_next' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Scène <br>suivante</div>
-                    <div  id='btn-fini' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Fin</div>
+                    <div  id='question_next' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Scène  suivante <span class='chevrons'>&rsaquo;</span> </div>
+                    <div  id='btn-fini' class='btn btn_footer btn_footer_right question_next dontshowfirst'>Fin <span class='chevrons'>&rsaquo;</span> </div>
+                    <div  id='skip-video-question-intro' class='btn btn_footer btn_footer_right skip-video-question-intro dontshowfirst'>Passer à   la question <span class='chevrons'>&rsaquo;</span> </div>
                 </div>
             </div>
             <p><br>
-            <a id='back-to-home'  href='index.html'  class='btn dontshowfirst'>Retour à l'accueil</a>
+            <a id='back-to-home'  href='index.html'  class='btn dontshowfirst'><span class='chevrons'>&lsaquo;</span> Retour à l'accueil</a>
             <p><br>
-            <div  id='reset-data' class='dontshowfirst'>Recommencer le jeu</div>
+            <div  id='reset-data' class='dontshowfirst'> <span class='chevrons'>&#9851;</span> Recommencer le jeu</div>
         </div>
