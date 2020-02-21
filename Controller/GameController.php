@@ -36,7 +36,7 @@ class GameController extends Controller
      */
     public function indexAction()
     {
-        $defaultGame= $this->GetEm()->getRepository('Aldaflux\GameQuizzBundle\Entity:Question')->findOneById(1);
+        $defaultGame= $this->GetEm()->getRepository(Game::class)->findOneById(1);
         return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
     }
         
@@ -46,7 +46,8 @@ class GameController extends Controller
      */
     public function index2Action()
     {
-        return $this->render('@AldafluxGameQuizz/game/game/index.html.twig');
+        $defaultGame= $this->GetEm()->getRepository(Game::class)->findOneById(1);
+        return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
     }
         
     /**
