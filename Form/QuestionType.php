@@ -35,12 +35,12 @@ class QuestionType extends AbstractType
         $builder->add('questionAudioFichier', SoundType::class);
          
         if ($options["fields"]["youtube"])
-        {
+        {   
             $builder->add('questionVideoYoutube');
         }
         if ($options["fields"]["mpg"])
         {
-            $builder->add('questionVideoFichier', VideoType::class);
+            $builder->add('questionVideoFichier', VideoType::class, ["label"=>"Vidéo de mise en situation "]);
         }
         $builder->add('answerText');
 
@@ -48,7 +48,7 @@ class QuestionType extends AbstractType
 
         if ($options["fields"]["mpg"])
         {
-            $builder->add('answerVideoFichier', VideoType::class);
+            $builder->add('answerVideoFichier', VideoType::class, ["label"=>"Vidéo accompagnant la réponse "]);
         }
         if ($options["fields"]["youtube"])
         {

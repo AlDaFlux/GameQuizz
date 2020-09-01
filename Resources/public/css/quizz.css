@@ -86,13 +86,16 @@ h1#game_title
             padding: 0.8em 1.2em 0.8em 1.2em ;
             color: #eeeeee;
             border-radius: 10px;
-            margin-top: 42px;
+            margin-top: 8px;
             font-size: 1.2em;
             background-color: #143b6b;
         }
         
+        
+        
         #boards li
         {
+            margin-top: 48px;            
             font-size: 1.5em;
         }
         

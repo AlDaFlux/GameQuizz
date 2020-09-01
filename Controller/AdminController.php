@@ -317,7 +317,7 @@ class AdminController extends Controller
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
         }
-        return $this->render('@AldafluxGameQuizz/admin/Question/newedit.html.twig', [
+        return $this->render('@AldafluxGameQuizz/admin/Question/new.html.twig', [
             'game' => $board->getGame(),
             'board' => $board,
             'form' => $form->createView(),
@@ -454,7 +454,7 @@ class AdminController extends Controller
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
         }
-        return $this->render('@AldafluxGameQuizz/admin/Question/newedit.html.twig', [
+        return $this->render('@AldafluxGameQuizz/admin/Question/edit.html.twig', [
             'game' => $question->getGame(),
             'board' => $question->getBoard(),
             'question' => $question,
