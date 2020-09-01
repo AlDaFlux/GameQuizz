@@ -12,10 +12,8 @@
     <h3><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question}}</a></h3>
     
     <h1>Modification</h1>
+
     
-    
-    
-    
-    {{ include('@AldafluxGameQuizz/admin/inc/_form.html.twig', {'button_label': 'Save'}) }}
+    {{ include('@AldafluxGameQuizz/admin/inc/_form_board.html.twig') }}
      
 {% endblock %}
