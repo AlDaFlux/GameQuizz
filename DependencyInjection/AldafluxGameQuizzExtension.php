@@ -22,10 +22,17 @@ class AldafluxGameQuizzExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        /*
-        $container->setParameter( 'in_da_flux_ids_sante.application_name', $config[ 'application_name' ] );
-        $container->setParameter( 'in_da_flux_ids_sante.active', $config[ 'active' ] );
-        */
+        $container->setParameter( 'abcd', "abcd" );
+
+        $container->setParameter( 'aldaflux_game_quizz.fields', $config[ 'fields' ] );
+        $container->setParameter( 'aldaflux_game_quizz.folders', $config[ 'folders' ] );
+        
+        
+ 
+        $container->setParameter( 'aldaflux_game_quizz.folder_video', $config[ 'folders' ]["video"] );
+        $container->setParameter( 'aldaflux_game_quizz.folder_audio', $config[ 'folders' ]["audio"] );
+        $container->setParameter( 'aldaflux_game_quizz.folder_public', $config[ 'folders' ]["public"] );
+        
         
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

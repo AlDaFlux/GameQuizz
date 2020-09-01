@@ -3,6 +3,7 @@
 namespace Aldaflux\GameQuizzBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Aldaflux\GameQuizzBundle\Service\QuizzUploader;
 
 
 use Aldaflux\GameQuizzBundle\Entity\Game;
@@ -19,6 +20,8 @@ use Aldaflux\GameQuizzBundle\Form\LinkType;
 
 
 
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+
 
 
 
@@ -27,6 +30,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class AdminController extends Controller
 {
+    
+    private $quizzUploader;
+    
+    
+    public function __construct(QuizzUploader $quizzUploader)
+    {
+     
+        $this->quizzUploader=$quizzUploader;
+        
+    }
+
+
     
     public function GetEm()
     {
@@ -57,6 +72,9 @@ class AdminController extends Controller
      */
     public function GameEditAction(Request $request, Game $game)
     {
+      
+
+        
         $form = $this->createForm(GameType::class, $game );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -253,9 +271,47 @@ class AdminController extends Controller
         $question->setGame($board->getGame());
         $question->setOrdre($board->getQuestionsCount()+1);
         
-        $form = $this->createForm(QuestionType::class, $question );
+        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->getParameter("aldaflux_game_quizz.fields")]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            
+
+            $folder="plateau_0".$board->getOrdre()."/";
+            $folder.="q".$form->get('ordre')->getData()."/";  
+
+            $file = $form->get('questionAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+            }
+            $file = $form->get('answerAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
+            }
+            
+            $file = $form->get('answerPlusAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
+            }
+            $file = $form->get('questionAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+            }
+            $file = $form->get('answerAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
+            }
+            
+            $file = $form->get('answerPlusAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
+            }
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
             $entityManager->flush();
@@ -275,7 +331,7 @@ class AdminController extends Controller
      */
     public function QuestionShowAction(Question $question)
     {
-        return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question]);
+            return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question, "fields"=>$this->getParameter("aldaflux_game_quizz.fields")]);
     }
      
 
@@ -347,9 +403,52 @@ class AdminController extends Controller
      */
     public function QuestionEditAction(Request $request, Question $question)
     {
-        $form = $this->createForm(QuestionType::class, $question );
+        
+             //, QuizzUploader $fileUploader     
+        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->getParameter("aldaflux_game_quizz.fields")]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            
+                        
+            $ordre=$form->get('ordre')->getData();
+            $ordre0=printf('%.2f',$form->get('ordre')->getData());
+
+                        
+            $folder=$this->getQuestionFolder($question);
+            
+            $file = $form->get('questionAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+            }
+            $file = $form->get('answerAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
+            }
+            
+            $file = $form->get('answerPlusAudioFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
+            }
+            
+            
+            $folder=$this->getQuestionFolderVideo($question);
+            
+            $file = $form->get('questionVideoFichier')->getData();
+            if ($file)
+            {
+                $question->setQuestionVideo($this->quizzUploader->uploadVideo($file, $folder, "q".$ordre0));
+            }
+            $file = $form->get('answerVideoFichier')->getData();
+            if ($file)
+            {
+                $question->setAnswerVideo($this->quizzUploader->uploadVideo($file, $folder, "q".$ordre0."-end"));
+            }
+
+            
+            
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
             $entityManager->flush();
@@ -382,6 +481,23 @@ class AdminController extends Controller
     }
     
     
+    public function getQuestionFolder(Question $question)
+    {
+        $folder="plateau_0".$question->getBoard()->getOrdre()."/";
+        $folder.="q".$question->getOrdre()."/";  
+        return($folder);
+        
+    }
+    
+    public function getQuestionFolderVideo(Question $question)
+    {
+        $ordre0=str_pad($question->getOrdre(), 2, '0', STR_PAD_LEFT);
+        $folder="p".$question->getBoard()->getOrdre()."_q".$ordre0."/";
+        return($folder);
+        
+    }
+    
+    
     
     /**
      * @Route("/question_{id}/new_answer", name="algq_admin_question_new_answer", methods={"GET","POST"})
@@ -396,10 +512,21 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            
+            $folder=$this->getQuestionFolder($question);
+            $ordre=$form->get('ordre')->getData();
+            $file = $form->get('answerAudioFichier')->getData();
+            if ($file)
+            {
+                $questionAudioFileName = $this->quizzUploader->uploadSound($file, $folder, "answer_".$ordre);
+                $answer->setAnswerAudio($questionAudioFileName);
+            }
             $entityManager->persist($answer);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
         }
+        
+        
         return $this->render('@AldafluxGameQuizz/admin/Answer/newedit.html.twig', [
             'game' => $question->getGame(),
             'question' => $question,
@@ -422,10 +549,25 @@ class AdminController extends Controller
      */
     public function AnswerEditAction(Request $request, Answer $answer)
     {
+        $question=$answer->GetQuestion();
+        
         $form = $this->createForm(AnswerType::class, $answer );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            
+            
+            $folder=$this->getQuestionFolder($question);
+            $ordre=$form->get('ordre')->getData();
+            $file = $form->get('answerAudioFichier')->getData();
+            if ($file)
+            {
+                $questionAudioFileName = $this->quizzUploader->uploadSound($file, $folder, "answer_".$ordre);
+                $answer->setAnswerAudio($questionAudioFileName);
+            }
+
+            
+            
             $entityManager->persist($answer);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$answer->getQuestion()->getId()]);

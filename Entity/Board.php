@@ -138,6 +138,32 @@ class Board implements \JsonSerializable
         return $this->questions;
     }
 
+
+    public function getQuestionsPublished(): Collection
+    {
+        $questions = new ArrayCollection();
+        foreach ($this->getQuestions() as $question)
+        {
+            if ($question->getPublished())
+            {
+                $questions->add($question);
+            }
+        }
+        return $questions;
+    }
+    
+    
+    public function getPublished()
+    {
+        return($this->getNbQuestionsPublished());
+    }
+    
+    
+    public function getNbQuestionsPublished()
+    {
+        return (count($this->getQuestionsPublished()));
+    }
+
     
     public function getQuestionsAreOrdered()
     {

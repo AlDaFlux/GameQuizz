@@ -75,7 +75,13 @@ class GameController extends Controller
                     $board->removeQuestion($question);
                 }
             }
+            if (! $board->getPublished())
+            {
+                $game->removeBoard($board);
+            }
         }
+        
+        
         return $this->json($game);
     }
     
@@ -118,6 +124,7 @@ class GameController extends Controller
      */
     public function PlayQuestionAction(Game $game,Question $question)
     {
+        
         return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ["game"=>$game,"question"=>$question]);
     }
         

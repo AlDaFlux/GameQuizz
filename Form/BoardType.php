@@ -12,6 +12,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BoardType extends AbstractType
 {
+    
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name');

@@ -147,15 +147,35 @@ class Game implements \JsonSerializable
     {
         return $this->boards;
     }
+    
+    
+    
 
     public function getBoardsCount()
     {
         return count($this->boards);
     }
     
+
+    
+    public function getBoardsPublished()
+    {
+        $boards = new ArrayCollection();
+        foreach ($this->getBoards() as $board)
+        {
+            if ($board->getPublished())
+            {
+                $boards->add($board);
+            }
+        }
+        return $boards;        
+    }
+    
+    
+    
     
 
-    public function addBoard(Answer $board): self
+    public function addBoard(Board $board): self
     {
         if (!$this->boards->contains($board)) {
             $this->boards[] = $board;
@@ -165,7 +185,7 @@ class Game implements \JsonSerializable
         return $this;
     }
 
-    public function removeBoard(Answer $board): self
+    public function removeBoard(Board $board): self
     {
         if ($this->boards->contains($board)) {
             $this->boards->removeElement($board);
@@ -185,6 +205,10 @@ class Game implements \JsonSerializable
     {
         return $this->questions;
     }
+    
+    
+    
+    
 
     public function getQuestionsCount()
     {

@@ -14,30 +14,39 @@
             
             <table class='table table-bordered'>
                 <tr><th>Ordre</th><td>{{ question.ordre}}</td></tr>
-                <tr><th>questionText</th><td>{{ question.questionText}}</td></tr>
+                <tr><th>question : Text</th><td>{{ question.questionText}}</td></tr>
                 <tr>
-                    <th>questionAudio</th>
+                    <th>question : Audio</th>
                     <td>
                     {%  if  question.questionAudio is not empty %}
                         <audio controls title='{{ question.questionAudio}}'>
-                            <source src="/{{ question.questionAudio}}" >
+                            <source src="/{{ question.questionAudio}}?{{ random() }}" >
                         </audio> 
+                        
                     {%  endif  %}
                     </td>
                 </tr>
                 <tr>
-                    <th>questionVideo</th>
+                    <th>Vidéo de mise en situation </th>
                     <td>
                     {%  if  question.questionVideo is not empty %}
                         <video height='120px' controls title='{{ question.questionVideo}}'>
-                            <source src="/{{ question.questionVideo}}" >
+                            <source src="/{{ question.questionVideo}}?{{ random() }}" >
                         </video> 
+                        
                     {%  endif  %}
                     </td>
                 </tr>
                 
-                <tr><th>questionVideoYoutube</th><td>{{ question.questionVideoYoutube}}</td></tr>
-                <tr><th>published</th><td>{{ question.published}}</td></tr>
+                {% if fields["youtube"]  %}
+                    <tr><th>questionVideoYoutube</th><td>{{ question.questionVideoYoutube}}</td></tr>
+                {% endif %}
+                
+                {% if question.published  %}
+                        <tr class="alert-success"><th>Publication </th><td>La question est publiée et apparait sur le site</td></tr>
+                {% else  %}
+                        <tr class="alert-warning"><th>Publication</th><td>La question est en cours de rédaction et n'apparait pas sur le site</td></tr>
+                {% endif %}
             </table>
                 
 
@@ -47,9 +56,8 @@
                 <tr><th>answerAudio</th>
                     <td>{%  if  question.answerAudio is not empty %}
                         <audio controls title='{{ question.answerAudio}}'>
-                            <source src="/{{ question.answerAudio}}" >
+                            <source src="/{{ question.answerAudio}}?{{ random() }}" >
                         </audio> 
-                     
                     {%  endif  %}
                     </td>
                     </tr>
@@ -57,11 +65,12 @@
                 <tr><th>answerPlusAudio</th>
                     <td>{%  if  question.answerPlusAudio is not empty %}
                         <audio controls title='{{ question.answerPlusAudio}}'>
-                            <source src="/{{ question.answerPlusAudio}}" >
+                            <source src="/{{ question.answerPlusAudio}}?{{ random() }}" >
                         </audio> 
 
+                            {#
                             <a href="/{{ question.answerPlusAudio}}" >{{ question.answerPlusAudio}}</a>
-                     
+                            #}
                     {%  endif  %}
                     </td>
                     </tr>
@@ -71,14 +80,20 @@
                     <td>
                     {%  if  question.answerVideo is not empty %}
                         <video height='120px' controls title='{{ question.answerVideo}}'>
-                            <source src="/{{ question.answerVideo}}" >
+                            <source src="/{{ question.answerVideo}}?{{ random() }}" >
                         </video> 
                     {%  endif  %}
                     </td>
                 </tr>
-                <tr><th>answerVideoYoutube</th><td>{{ question.answerVideoYoutube}}</td></tr>
+
+                {% if fields["youtube"]  %}
+                    <tr><th>answerVideoYoutube</th><td>{{ question.answerVideoYoutube}}</td></tr>
+                {%  endif  %}
             </table>
 
+            
+            
+            <h2>Réponses</h2>
             
             <table class='table table-bordered'>
     {%  for  answer in question.answers %}
@@ -89,16 +104,26 @@
                 <td>
                     {%  if  answer.answerAudio is not empty %}
                         <audio controls title='{{ answer.answerAudio}}'>
-                            <source src="/{{ answer.answerAudio}}" >
+                            <source src="/{{ answer.answerAudio}}?{{ random() }}" >
                         </audio> 
+
+
+                        {#
+                        <a href="/{{ question.answerAudio}}" >{{ question.answerAudio}}</a>
+                        #}
+                        
                     {%  endif  %}
                 </td>
                 <td>{{ answer.isGood}}</td>
                 
+                 
+
+                
+                
             </tr>
     {% else  %}
         <div class='alert alert-danger'>
-            Aucune reponses !
+            Aucune reponses !!
         </div>
             
     {%  endfor  %}
@@ -113,6 +138,7 @@
     <a class="btn btn-lg btn-block btn-primary"   href='{{ path("algq_play_question", {'slug':question.game.slug, 'id':question.id}) }}'>Play</a>
        <p><br>
     {% if is_granted('ROLE_GAME_EDITOR') %}
+        
         {%  if question.deletable %}
                {{ include('@AldafluxGameQuizz/admin/Question/_delete_form.html.twig') }}
        {%  endif  %}
@@ -129,6 +155,6 @@
 
         <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_question_shuffle", {'id':question.id}) }}'>Schuffle </a>
         
-        
+  
     {%  endif  %}
 {% endblock %}

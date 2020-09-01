@@ -4,7 +4,29 @@
 services:
     _defaults:
         autowire: true
+    game-quizz-bundle.file_upload:
+        class: Aldaflux\GameQuizzBundle\Service\QuizzUploader
+        public: true
+        autowire: true
+        autoconfigure: true
+    Aldaflux\GameQuizzBundle\Service\QuizzUploader: '@game-quizz-bundle.file_upload'
+    
 
+    Aldaflux\GameQuizzBundle\Controller\AdminController:
+      arguments:
+              - '@game-quizz-bundle.file_upload'
+      tags: ['controller.service_arguments']
+      
+      
+              
+#    game-quizz-bundle.controller.admin:
+#          class: Aldaflux\GameQuizzBundle\Controller\AdminController
+#          arguments:
+#              - '@game-quizz-bundle.file_upload'
+#          tags: ['controller.service_arguments']
+
+    
+    
     Aldaflux\GameQuizzBundle\Repository\:
         resource: ../../Repository  
         tags: ['doctrine.repository_service']
@@ -21,5 +43,5 @@ services:
     Aldaflux\GameQuizzBundle\Command\BuildCordovaCommand:
         tags:
             - { name: 'console.command', command: 'game:build-cordova' }
-        
+ 
         

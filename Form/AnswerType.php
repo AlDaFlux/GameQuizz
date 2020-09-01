@@ -4,6 +4,7 @@ namespace Aldaflux\GameQuizzBundle\Form;
 
 use Aldaflux\GameQuizzBundle\Entity\Answer;
 
+use Aldaflux\GameQuizzBundle\Form\Type\SoundType;
 
 
 use Symfony\Component\Form\AbstractType;
@@ -16,9 +17,10 @@ class AnswerType extends AbstractType
     {
         $builder->add('ordre');
         $builder->add('answerText');
-        $builder->add('answerAudio');
+        $builder->add('answerAudioFichier', SoundType::class);
         $builder->add('isGood');
     }
+    
     
 
     public function configureOptions(OptionsResolver $resolver)
