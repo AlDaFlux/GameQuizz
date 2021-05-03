@@ -409,9 +409,19 @@ class AdminController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
-                        
+             
+            
             $ordre=$form->get('ordre')->getData();
-            $ordre0=printf('%.2f',$form->get('ordre')->getData());
+            if ($ordre<10)
+            {
+                $ordre='0'.$ordre;
+            }
+            else
+            {
+                $ordre0=$ordre;
+            }
+//            $ordre0=printf('%.2f',$form->get('ordre')->getData());
+            
 
                         
             $folder=$this->getQuestionFolder($question);
