@@ -28,6 +28,16 @@
     <p><br>
         
     <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_new_question", {'id':board.id}) }}'>Nouvelle question</a>
+    
+    {%  if board.nbQuestions %}
+        {%  if not board.getFullPublished %}
+            <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_publish_all", {'id':board.id}) }}'><i class="alert-success far fa-check-circle"></i> Tout publier</a>
+        {%  endif %}
+        {%  if  board.NbQuestionsPublished %}
+            <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_unpublish_all", {'id':board.id}) }}'><i class="alert-danger far fa-circle"></i> Tout dépublier</a>
+        {%  endif %}
+    {%  endif %}
+    
         {%  if not board.QuestionsAreOrdered%}
             <a class="btn btn-lg btn-block btn-danger"  href='{{ path("algq_admin_board_reorder", {'id':board.id}) }}'>Réordonner les questions</a>
         {%  endif  %}

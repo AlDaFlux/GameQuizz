@@ -10,7 +10,14 @@
         <li><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'>{{ board }}</a></li>
         <ul>
         {%  for  question in board.questions %}
-            <li><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a></li>
+            <li><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a>
+                {% if question.getPublished %} 
+                    <i class="alert-success far fa-check-circle"></i>
+                 {% else %}
+                     <i class="alert-danger far fa-circle"></i>
+                 {% endif %}
+
+            </li>
         {%  endfor  %}
         </ul>
     {%  endfor  %}

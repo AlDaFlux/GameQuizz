@@ -6,7 +6,8 @@
                         <th>Question</th>
                         <th>NbReponses</th>
                         <th>Publiée</th>
-                        <th>Question au</th>
+                        <th>Question</th>
+                        <th>Réponse</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -16,18 +17,27 @@
                         <td><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question}}</a></td>
                         <td>{{ question.questionText}}</td>
                         <td>{{ question.answersCount}}</td>
-                        <td>{{ question.published}}</td>
+                        <td>
+                            {% if question.getPublished %} 
+                                <i class="alert-success far fa-check-circle"></i>
+                             {% else %}
+                                 <i class="alert-danger far fa-circle"></i>
+                             {% endif %}
+
+                        </td>
                             {%  if  question.questionAudio is not empty %}
                                 <td>
-                                    <audio width='30px' controls title='{{ question.questionAudio}}'><source src="/{{ question.questionAudio}}" ></audio> 
+                                    <a target='blank' href='/{{ question.questionAudio}}'><i class="fas fa-volume-up"></i></a>
                                 </td>
                             {%  else %}
-                                <td class='alert-danger'></td>
+                                <td class='alert-danger'><i class="fas fa-volume-mute"></i></td>
                             {%  endif  %}
                             {%  if  question.answerAudio is not empty %}
-                                <td><audio width='30px' controls title='{{ question.answerAudio}}'><source src="/{{ question.answerAudio}}" ></audio> </td>
+                                <td>
+                                    <a target='blank' href='/{{ question.answerAudio}}'><i class="fas fa-volume-up"></i></a>
+                                </td>
                             {%  else   %}
-                                <td class='alert-danger'></td>
+                                <td class='alert-danger'><i class="fas fa-volume-mute"></i></td>
                             {%  endif  %}
                     </tr>
         {%  endfor  %}

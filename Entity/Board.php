@@ -137,6 +137,14 @@ class Board implements \JsonSerializable
     {
         return $this->questions;
     }
+    
+    
+    public function getNbQuestions()
+    {
+        return count($this->questions);
+    }
+    
+    
 
 
     public function getQuestionsPublished(): Collection
@@ -156,6 +164,12 @@ class Board implements \JsonSerializable
     public function getPublished()
     {
         return($this->getNbQuestionsPublished());
+    }
+    
+    
+    public function getFullPublished()
+    {
+        return ($this->getNbQuestions()==$this->getNbQuestionsPublished());
     }
     
     

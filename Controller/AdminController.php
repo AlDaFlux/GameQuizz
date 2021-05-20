@@ -259,6 +259,35 @@ class AdminController extends Controller
     }
     
     
+    /**
+     * @Route("/board_{id}/publish_all", name="algq_admin_board_publish_all", methods={"GET"})
+     */
+    public function boardPublishQuestion(Board $board) 
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($board->getQuestions() as $question)
+        {
+            $question->setPublished(true);
+            $entityManager->persist($question);
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('algq_admin_board_show', ['id'=>$board->getId()]);
+    }
+    
+    /**
+     * @Route("/board_{id}/unpublish_all", name="algq_admin_board_unpublish_all", methods={"GET"})
+     */
+    public function boardUnPublishQuestion(Board $board) 
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        foreach ($board->getQuestions() as $question)
+        {
+            $question->setPublished(false);
+            $entityManager->persist($question);
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('algq_admin_board_show', ['id'=>$board->getId()]);
+    }
     
     
     /**
@@ -414,7 +443,7 @@ class AdminController extends Controller
             $ordre=$form->get('ordre')->getData();
             if ($ordre<10)
             {
-                $ordre='0'.$ordre;
+                $ordre0='0'.$ordre;
             }
             else
             {
