@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+{% endblock %}
+
+{% block footer %}
+ {% endblock %}
+
+        {% block stylesheets %}
+            {{ parent() }}
+              <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/bootstrap.css') }}" />
+              <link rel="stylesheet" href="{{ asset('bundles/aldafluxgamequizz/css/quizz.css') }}" />
+        {% endblock %}
+        {% block javascripts %}
+            
+             <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+             <script src="{{ asset('bundles/aldafluxgamequizz/js/quizz.js') }}"></script>
+             {%  if question is defined  %}
+                 <script src="{{ path('algq_game_init_js_question', {'game':game.id, 'question':question.id} ) }}"></script>
+             {%  else  %}
+                 <script src="{{ path('algq_game_init_js', {'game':game.id} ) }}"></script>
+             {%  endif  %}
+        {% endblock %}
+
+{% block body %}
+    {{ include('@AldafluxGameQuizz/game/game/_inc_game_play.html.twig') }}
+    
+
+    <a onclick="javascript:quitApp();"  id='quit' class='btn'>Quitter l'application</a>
+
+            
+            
+{% endblock %}
+
+

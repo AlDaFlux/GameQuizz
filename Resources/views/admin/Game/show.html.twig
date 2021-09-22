@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+<h1><a href='{{ path("algq_admin_homepage") }}'>GAME QUIZZ</a></h1>
+
+<h1><a href='{{ path("algq_admin_game_show", {'id':game.id}) }}'>{{ game }}</a></h1>
+
+    <ul>
+    {%  for  board in game.boards %}
+        <li><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'>{{ board }}</a></li>
+        <ul>
+        {%  for  question in board.questions %}
+            <li><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a>
+                {% if question.getPublished %} 
+                    <i class="alert-success far fa-check-circle"></i>
+                 {% else %}
+                     <i class="alert-danger far fa-circle"></i>
+                 {% endif %}
+
+            </li>
+        {%  endfor  %}
+        </ul>
+    {%  endfor  %}
+    </ul>
+
+
+
+
+{% endblock %}
+
+{% block sidebar %}
+    <a class="btn btn-lg btn-block btn-primary"   href='{{ path("algq_play_game", {'slug':game.slug}) }}'>Play</a>
+
+    {% if is_granted('ROLE_GAME_EDITOR') %}
+        {%  if game.deletable %}
+               {{ include('@AldafluxGameQuizz/admin/Game/_delete_form.html.twig') }}
+       {%  endif  %}
+       <p><br>
+       <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_game_edit", {'id':game.id}) }}'>Modifier</a>
+       <p><br>
+       <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_game_new_board", {'id':game.id}) }}'>Nouveau plateau  </a>
+       <p><br>
+       <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_game_json", {'id':game.id}) }}'>JSON</a>
+    {%  endif  %}
+{% endblock %}

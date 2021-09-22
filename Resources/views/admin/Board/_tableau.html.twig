@@ -1,0 +1,46 @@
+     <table class='table table-bordered'>
+                <thead>
+                    <tr>
+                        <th>Ordre</th>
+                        <th>Nom</th>
+                        <th>Question</th>
+                        <th>NbReponses</th>
+                        <th>Publiée</th>
+                        <th>Question</th>
+                        <th>Réponse</th>
+                    </tr>
+                </thead>
+                <tbody>
+        {%  for  question in board.questions %}
+                    <tr>
+                        <td>{{ question.ordre}}</td>
+                        <td><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question}}</a></td>
+                        <td>{{ question.questionText}}</td>
+                        <td>{{ question.answersCount}}</td>
+                        <td>
+                            {% if question.getPublished %} 
+                                <i class="alert-success far fa-check-circle"></i>
+                             {% else %}
+                                 <i class="alert-danger far fa-circle"></i>
+                             {% endif %}
+
+                        </td>
+                            {%  if  question.questionAudio is not empty %}
+                                <td>
+                                    <a target='blank' href='/{{ question.questionAudio}}'><i class="fas fa-volume-up"></i></a>
+                                </td>
+                            {%  else %}
+                                <td class='alert-danger'><i class="fas fa-volume-mute"></i></td>
+                            {%  endif  %}
+                            {%  if  question.answerAudio is not empty %}
+                                <td>
+                                    <a target='blank' href='/{{ question.answerAudio}}'><i class="fas fa-volume-up"></i></a>
+                                </td>
+                            {%  else   %}
+                                <td class='alert-danger'><i class="fas fa-volume-mute"></i></td>
+                            {%  endif  %}
+                    </tr>
+        {%  endfor  %}
+                </tbody>
+    </table>
+                
