@@ -1,4 +1,6 @@
-     <table class='table table-bordered'>
+
+
+<table class='table table-bordered'>
                 <thead>
                     <tr>
                         <th>Ordre</th>
@@ -6,8 +8,19 @@
                         <th>Question</th>
                         <th>NbReponses</th>
                         <th>Publiée</th>
+
+                        {% if fields.video.youtube %}
+                        {% endif %}
+                        {% if fields.video.mpg or  fields.video.videolink %}
+                            <th>Video</th>
+                        {% endif %}
+                        
+                        {% if fields.audio.question %}
                         <th>Question</th>
+                        {% endif  %}
+                        {% if fields.audio.reponse %}
                         <th>Réponse</th>
+                        {% endif  %}
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +38,22 @@
                              {% endif %}
 
                         </td>
+                        {% if fields.video.mpg or  fields.video.videolink %}
+                                    {%  if question.questionVideoLink is not empty %}
+                                        <td>
+                                            <a target='blank' href='{{ question.questionVideoLink}}'><i class="fas fa-video"></i></a>
+                                        </td>
+                                    {%  elseif question.questionVideo is not empty %}
+                                        <td>
+                                            <a target='blank' href='/{{ question.questionVideo}}'><i class="fas fa-video"></i></a>
+                                        </td>
+                                    {%  else %}
+                                        <td class='alert-danger'><i class="fas fa-video"></i></td>
+                                    {%  endif  %}
+                                    
+                        {% endif %}
+                        
+                        {% if fields.audio.question %}
                             {%  if  question.questionAudio is not empty %}
                                 <td>
                                     <a target='blank' href='/{{ question.questionAudio}}'><i class="fas fa-volume-up"></i></a>
@@ -32,13 +61,18 @@
                             {%  else %}
                                 <td class='alert-danger'><i class="fas fa-volume-mute"></i></td>
                             {%  endif  %}
-                            {%  if  question.answerAudio is not empty %}
+                        {% endif  %}
+                        {% if fields.audio.reponse %}
+                          {%  if  question.answerAudio is not empty %}
                                 <td>
                                     <a target='blank' href='/{{ question.answerAudio}}'><i class="fas fa-volume-up"></i></a>
                                 </td>
                             {%  else   %}
                                 <td class='alert-danger'><i class="fas fa-volume-mute"></i></td>
                             {%  endif  %}
+                        {% endif  %}
+                        
+                         
                     </tr>
         {%  endfor  %}
                 </tbody>

@@ -15,6 +15,7 @@
             <table class='table table-bordered'>
                 <tr><th>Ordre</th><td>{{ question.ordre}}</td></tr>
                 <tr><th>question : Text</th><td>{{ question.questionText}}</td></tr>
+                {% if fields["audio"]["question"]  %}
                 <tr>
                     <th>question : Audio</th>
                     <td>
@@ -26,6 +27,7 @@
                     {%  endif  %}
                     </td>
                 </tr>
+                {% endif %}
                 <tr>
                     <th>Vidéo de mise en situation </th>
                     <td>
@@ -33,12 +35,15 @@
                         <video height='120px' controls title='{{ question.questionVideo}}'>
                             <source src="/{{ question.questionVideo}}?{{ random() }}" >
                         </video> 
-                        
+                    {%  elseif  question.questionVideoLink is not empty %}
+                        <video height='120px' controls title='{{ question.questionVideoLink}}'>
+                            <source src="{{ question.questionVideoLink}}?{{ random() }}" >
+                        </video> 
                     {%  endif  %}
                     </td>
                 </tr>
                 
-                {% if fields["youtube"]  %}
+                {% if fields["video"]["youtube"]  %}
                     <tr><th>questionVideoYoutube</th><td>{{ question.questionVideoYoutube}}</td></tr>
                 {% endif %}
                 
@@ -53,6 +58,7 @@
             <table class='table table-bordered'>
             <tr>
                 <tr><th>answerText</th><td>{{ question.answerText}}</td></tr>
+                {% if fields["audio"]["reponse"]  %}
                 <tr><th>answerAudio</th>
                     <td>{%  if  question.answerAudio is not empty %}
                         <audio controls title='{{ question.answerAudio}}'>
@@ -61,7 +67,9 @@
                     {%  endif  %}
                     </td>
                     </tr>
+                {%  endif  %}
                 <tr><th>answerPlusText</th><td>{{ question.answerPlusText}}</td></tr>
+                {% if fields["audio"]["reponse"]  %}
                 <tr><th>answerPlusAudio</th>
                     <td>{%  if  question.answerPlusAudio is not empty %}
                         <audio controls title='{{ question.answerPlusAudio}}'>
@@ -74,6 +82,7 @@
                     {%  endif  %}
                     </td>
                     </tr>
+                {%  endif  %}
                 
                        <tr>
                     <th>answerVideo</th>
@@ -86,7 +95,7 @@
                     </td>
                 </tr>
 
-                {% if fields["youtube"]  %}
+                {% if fields["video"]["youtube"]  %}
                     <tr><th>answerVideoYoutube</th><td>{{ question.answerVideoYoutube}}</td></tr>
                 {%  endif  %}
             </table>

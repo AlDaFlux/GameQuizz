@@ -14,11 +14,13 @@
             {{ form_row(form.questionText) }}
         </div>
         <div class="col-md-4">
-            {{ form_row(form.questionAudioFichier) }}
-            
-            {%  if question is defined %}
-                {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.questionAudio}) }}
+            {% if form.questionAudioFichier is defined %}
+                {{ form_row(form.questionAudioFichier) }}
+                {%  if question is defined %}
+                    {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.questionAudio}) }}
+                {%  endif %}
             {%  endif %}
+            
                 
             
         </div>
@@ -27,49 +29,50 @@
         <div class="col-md-8">
             {{ form_row(form.answerText) }}
         </div>
-        <div class="col-md-4">
-            {{ form_row(form.answerAudioFichier) }}
-            {%  if question is defined %}
-                {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.answerAudio}) }}
-            {%  endif %}
+        
+            {% if form.answerAudioFichier is defined %}
+                <div class="col-md-4">
+                    {{ form_row(form.answerAudioFichier) }}
+                    {%  if question is defined %}
+                        {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.answerAudio}) }}
+                    {%  endif %}
 
-        </div>
+                </div>
+            {%  endif %}
     </div>
     <div class="row">
         <div class="col-md-8">
             {{ form_row(form.answerPlusText) }}
         </div>
-        <div class="col-md-4">
+     {% if form.answerAudioFichier is defined %}
+         <div class="col-md-4">
             {{ form_row(form.answerPlusAudioFichier) }}
             {%  if question is defined %}
                 {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.answerPlusAudio}) }}
             {%  endif %}
         </div>
+            {%  endif %}
     </div>
    <div class="row">
         <div class="col-md-6">
-            
-            
             {% if form.questionVideoFichier is defined %}
                 {{ form_row(form.questionVideoFichier) }}
+                {%  if question is defined %}
+                {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.questionVideo}) }}
+                {%  endif %}
             {%  endif %}
 
-            {%  if question is defined %}
-            {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.questionVideo}) }}
-            {%  endif %}
 
         </div>
         <div class="col-md-6">
             {% if form.answerVideoFichier is defined %}
                 {{ form_row(form.answerVideoFichier) }}
-            {%  endif %}
-            
-            {%  if question is defined %}
-            {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.answerVideo}) }}
+                {%  if question is defined %}
+                {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.answerVideo}) }}
+                {%  endif %}
             {%  endif %}
         </div>
     </div>        
-        
     {{ form_widget(form) }}
     <button class="btn btn-primary btn-block">Sauvegarder</button>
     

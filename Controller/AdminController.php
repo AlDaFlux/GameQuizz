@@ -246,7 +246,7 @@ class AdminController extends AbstractController
     public function BoardShowAction(Board $board)
     {
         
-        return $this->render('@AldafluxGameQuizz/admin/Board/show.html.twig', ['board'=>$board]);
+        return $this->render('@AldafluxGameQuizz/admin/Board/show.html.twig', ['board'=>$board,"fields"=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
     }
     
     /**
@@ -369,7 +369,7 @@ class AdminController extends AbstractController
      */
     public function QuestionShowAction(Question $question)
     {
-            return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question, "fields"=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
+        return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question, "fields"=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
     }
      
 
@@ -507,6 +507,7 @@ class AdminController extends AbstractController
             'board' => $question->getBoard(),
             'question' => $question,
             'form' => $form->createView(),
+            'fields'=>$this->parameter->Get("aldaflux_game_quizz.fields")
         ]);
         
     }
