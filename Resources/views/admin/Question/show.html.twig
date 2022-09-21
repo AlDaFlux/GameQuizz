@@ -110,19 +110,16 @@
             <tr {%  if answer.isGood %}class='alert-success'{% endif  %}>
                 <td><a href='{{ path("algq_admin_answer_show", {'id':answer.id}) }}'>{{ answer.ordre}}</a></td>
                 <td {%  if answer.isGood %}class='alert-success'{% endif  %}>{{ answer.answerText}}</td>
+                
+                {% if fields["audio"]["reponses"]  %}
                 <td>
                     {%  if  answer.answerAudio is not empty %}
                         <audio controls title='{{ answer.answerAudio}}'>
                             <source src="/{{ answer.answerAudio}}?{{ random() }}" >
                         </audio> 
-
-
-                        {#
-                        <a href="/{{ question.answerAudio}}" >{{ question.answerAudio}}</a>
-                        #}
-                        
                     {%  endif  %}
                 </td>
+                {% endif %}
                 <td>{{ answer.isGood}}</td>
                 
                  

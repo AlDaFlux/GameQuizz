@@ -17,7 +17,10 @@ class AnswerType extends AbstractType
     {
         $builder->add('ordre');
         $builder->add('answerText');
-        $builder->add('answerAudioFichier', SoundType::class);
+        if ($options["fields"]["audio"]["reponses"])
+        {
+            $builder->add('answerAudioFichier', SoundType::class);
+        }
         $builder->add('isGood');
     }
     
@@ -27,6 +30,7 @@ class AnswerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Answer::class,
+            'fields' => null,
         ]);
     }
 }

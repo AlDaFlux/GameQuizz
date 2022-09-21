@@ -304,12 +304,14 @@ class AdminController extends AbstractController
      */
     public function BoardNewQuestion(Board $board, Request $request) 
     {
+        $fields=$this->parameter->Get("aldaflux_game_quizz.fields");
+
         $question = new Question();
         $question->setBoard($board);
         $question->setGame($board->getGame());
         $question->setOrdre($board->getQuestionsCount()+1);
         
-        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
+        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$fields]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -317,38 +319,28 @@ class AdminController extends AbstractController
             $folder="plateau_0".$board->getOrdre()."/";
             $folder.="q".$form->get('ordre')->getData()."/";  
 
-            $file = $form->get('questionAudioFichier')->getData();
-            if ($file)
+            if ($fields["audio"]["question"])
             {
-                $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+                $file = $form->get('questionAudioFichier')->getData();
+                if ($file)
+                {
+                    $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+                }
             }
-            $file = $form->get('answerAudioFichier')->getData();
-            if ($file)
+            if ($fields["audio"]["reponse"])
             {
-                $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
-            }
-            
-            $file = $form->get('answerPlusAudioFichier')->getData();
-            if ($file)
-            {
-                $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
-            }
-            $file = $form->get('questionAudioFichier')->getData();
-            if ($file)
-            {
-                $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
-            }
-            $file = $form->get('answerAudioFichier')->getData();
-            if ($file)
-            {
-                $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
-            }
-            
-            $file = $form->get('answerPlusAudioFichier')->getData();
-            if ($file)
-            {
-                $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
-            }
+                $file = $form->get('answerAudioFichier')->getData();
+                if ($file)
+                {
+                    $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
+                }
+
+                $file = $form->get('answerPlusAudioFichier')->getData();
+                if ($file)
+                {
+                    $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
+                }
+            }   
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($question);
@@ -441,9 +433,9 @@ class AdminController extends AbstractController
      */
     public function QuestionEditAction(Request $request, Question $question)
     {
-        
+        $fields=$this->parameter->Get("aldaflux_game_quizz.fields");
              //, QuizzUploader $fileUploader     
-        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
+        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$fields]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -464,35 +456,45 @@ class AdminController extends AbstractController
                         
             $folder=$this->getQuestionFolder($question);
             
-            $file = $form->get('questionAudioFichier')->getData();
-            if ($file)
+            
+            if ($fields["audio"]["question"])
             {
-                $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+                $file = $form->get('questionAudioFichier')->getData();
+                if ($file)
+                {
+                    $question->setQuestionAudio($this->quizzUploader->uploadSound($file, $folder, "question"));
+                }
             }
-            $file = $form->get('answerAudioFichier')->getData();
-            if ($file)
+            if ($fields["audio"]["reponse"])
             {
-                $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
+                $file = $form->get('answerAudioFichier')->getData();
+                if ($file)
+                {
+                    $question->setAnswerAudio($this->quizzUploader->uploadSound($file, $folder, "answer"));
+                }
+                $file = $form->get('answerPlusAudioFichier')->getData();
+                if ($file)
+                {
+                    $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
+                }
             }
             
-            $file = $form->get('answerPlusAudioFichier')->getData();
-            if ($file)
-            {
-                $question->setAnswerPlusAudio($this->quizzUploader->uploadSound($file, $folder, "answer_plus"));
-            }
             
             
             $folder=$this->getQuestionFolderVideo($question);
             
-            $file = $form->get('questionVideoFichier')->getData();
-            if ($file)
+            if ($fields["video"]["mpg"])
             {
-                $question->setQuestionVideo($this->quizzUploader->uploadVideo($file, $folder, "q".$ordre0));
-            }
-            $file = $form->get('answerVideoFichier')->getData();
-            if ($file)
-            {
-                $question->setAnswerVideo($this->quizzUploader->uploadVideo($file, $folder, "q".$ordre0."-end"));
+                $file = $form->get('questionVideoFichier')->getData();
+                if ($file)
+                {
+                    $question->setQuestionVideo($this->quizzUploader->uploadVideo($file, $folder, "q".$ordre0));
+                }
+                $file = $form->get('answerVideoFichier')->getData();
+                if ($file)
+                {
+                    $question->setAnswerVideo($this->quizzUploader->uploadVideo($file, $folder, "q".$ordre0."-end"));
+                }
             }
 
             
@@ -553,22 +555,28 @@ class AdminController extends AbstractController
      */
     public function QuestionNewAnswer(Question $question, Request $request) 
     {
+        
+        $fields=$this->parameter->Get("aldaflux_game_quizz.fields");
+        
         $answer = new Answer();
         $answer->setQuestion($question);
         $answer->setOrdre($question->getAnswersCount()+1);
         
-        $form = $this->createForm(AnswerType::class, $answer );
+        $form = $this->createForm(AnswerType::class, $answer, ['fields'=>$fields]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             
             $folder=$this->getQuestionFolder($question);
             $ordre=$form->get('ordre')->getData();
-            $file = $form->get('answerAudioFichier')->getData();
-            if ($file)
+            if ($fields["audio"]["reponse"])
             {
-                $questionAudioFileName = $this->quizzUploader->uploadSound($file, $folder, "answer_".$ordre);
-                $answer->setAnswerAudio($questionAudioFileName);
+                $file = $form->get('answerAudioFichier')->getData();
+                if ($file)
+                {
+                    $questionAudioFileName = $this->quizzUploader->uploadSound($file, $folder, "answer_".$ordre);
+                    $answer->setAnswerAudio($questionAudioFileName);
+                }
             }
             $entityManager->persist($answer);
             $entityManager->flush();
