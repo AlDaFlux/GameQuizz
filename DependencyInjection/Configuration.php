@@ -31,6 +31,7 @@ $rootNode->children()
             ->children()
                 ->booleanNode('youtube')->defaultFalse()->end()
                 ->booleanNode('mpg')->defaultFalse()->end()
+                ->booleanNode('videolink')->defaultFalse()->end()
             ->end()
         ->end()
     ->end();

@@ -15,8 +15,14 @@ services:
     Aldaflux\GameQuizzBundle\Controller\AdminController:
       arguments:
               - '@game-quizz-bundle.file_upload'
+              - '@doctrine.orm.default_entity_manager'              
+              - '@parameter_bag'              
       tags: ['controller.service_arguments']
       
+    Aldaflux\GameQuizzBundle\Controller\GameController:
+      arguments:
+              - '@doctrine.orm.default_entity_manager'
+      tags: ['controller.service_arguments']      
       
               
 #    game-quizz-bundle.controller.admin:

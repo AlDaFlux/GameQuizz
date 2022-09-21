@@ -15,20 +15,29 @@ use Aldaflux\GameQuizzBundle\Entity\Question;
 use Aldaflux\GameQuizzBundle\Entity\Answer;
  
 
+  
+use Doctrine\ORM\EntityManager;
  
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+ 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
-class GameController extends Controller
+class GameController extends AbstractController
 {
+
+    private $em;
+    
+    public function __construct(EntityManager $em)
+    {
+        $this->em=$em;
+    }
     
     public function GetEm()
     {
-        $em = $this->getDoctrine()->getManager();
-        return($em);
+        return($this->em);
     }
-
-    
      
         
     /**
@@ -36,8 +45,14 @@ class GameController extends Controller
      */
     public function indexAction()
     {
-        $defaultGame= $this->GetEm()->getRepository(Game::class)->findOneById(1);
-        return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
+         if ($defaultGame)
+        {
+            return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
+        }
+        else
+        {
+            return $this->render('@AldafluxGameQuizz/game/game/nogame.html.twig');
+        }
     }
         
         

@@ -25,20 +25,29 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class AdminController extends Controller
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Doctrine\ORM\EntityManager;
+
+
+class AdminController extends AbstractController
 {
     
     private $quizzUploader;
+    private $em;
+    private $parameter;
     
     
-    public function __construct(QuizzUploader $quizzUploader)
+    
+    
+    public function __construct(QuizzUploader $quizzUploader,EntityManager $em, ParameterBagInterface $parameter)
     {
      
         $this->quizzUploader=$quizzUploader;
-        
+        $this->parameter=$parameter;
+        $this->em=$em;
     }
 
 
@@ -300,7 +309,7 @@ class AdminController extends Controller
         $question->setGame($board->getGame());
         $question->setOrdre($board->getQuestionsCount()+1);
         
-        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->getParameter("aldaflux_game_quizz.fields")]);
+        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
@@ -360,7 +369,7 @@ class AdminController extends Controller
      */
     public function QuestionShowAction(Question $question)
     {
-            return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question, "fields"=>$this->getParameter("aldaflux_game_quizz.fields")]);
+            return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question, "fields"=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
     }
      
 
@@ -434,7 +443,7 @@ class AdminController extends Controller
     {
         
              //, QuizzUploader $fileUploader     
-        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->getParameter("aldaflux_game_quizz.fields")]);
+        $form = $this->createForm(QuestionType::class, $question, ['fields'=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             

@@ -1,14 +1,5 @@
 <?php
-
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
+ 
 namespace Aldaflux\GameQuizzBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,6 +46,7 @@ class Question implements \JsonSerializable
             'questionText'        => $this->questionText,
             'questionAudio'        => $this->questionAudio,
             'questionVideo'  => $this->questionVideo,
+            'questionVideoLink'  => $this->questionVideoLink,
             'questionVideoYoutube'  => $this->questionVideoYoutube,
             'questionHasVideo'  => $this->getQuestionHasVideo(),
             'answerHasVideo'  => $this->getAnswerHasVideo(),
@@ -134,6 +126,14 @@ class Question implements \JsonSerializable
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private $questionVideoLink;
+    
+    
+    
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private $questionAudio;
     
     
@@ -149,6 +149,14 @@ class Question implements \JsonSerializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $answerVideo;
+    
+    
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $answerVideoLink;
+    
+    
     
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -268,7 +276,17 @@ class Question implements \JsonSerializable
     public function setQuestionVideo(string $questionVideo): self
     {
         $this->questionVideo = $questionVideo;
+        return $this;
+    }
+    
+    public function getQuestionVideoLink(): ?string
+    {
+        return $this->questionVideoLink;
+    }
 
+    public function setQuestionVideoLink(string $questionVideoLink): self
+    {
+        $this->questionVideoLink = $questionVideoLink;
         return $this;
     }
 
@@ -280,17 +298,28 @@ class Question implements \JsonSerializable
     public function setAnswerVideo($answerVideo): self
     {
         $this->answerVideo = $answerVideo;
-
         return $this;
     }
+    
+    public function getAnswerVideoLink() 
+    {
+        return $this->answerVideoLink;
+    }
+
+    public function setAnswerVideoLink($answerVideoLink): self
+    {
+        $this->answerVideoLink = $answerVideoLink;
+        return $this;
+    }
+    
 
     public function getQuestionHasVideo()
     {
-        return ($this->questionVideoYoutube or $this->questionVideo);
+        return ($this->questionVideoYoutube or $this->questionVideo or $this->questionVideoLink);
     }
     public function getAnswerHasVideo(): ?string
     {
-        return ($this->answerVideo or $this->answerVideoYoutube);
+        return ($this->answerVideo or $this->answerVideoLink or $this->answerVideoYoutube);
     }
     
     public function getQuestionVideoYoutube()

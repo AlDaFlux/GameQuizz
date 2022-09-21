@@ -33,8 +33,7 @@ class QuestionType extends AbstractType
         $builder->add('questionText');
         
         $builder->add('questionAudioFichier', SoundType::class);
-         
-        if ($options["fields"]["youtube"])
+             if ($options["fields"]["youtube"])
         {   
             $builder->add('questionVideoYoutube');
         }
@@ -42,6 +41,11 @@ class QuestionType extends AbstractType
         {
             $builder->add('questionVideoFichier', VideoType::class, ["label"=>"Vidéo de mise en situation "]);
         }
+        if ($options["fields"]["videolink"])
+        {
+            $builder->add('questionVideoLink',null,['attr'=>['placeholder'=>'https://storage.gra1.cloud.ovh.net/v1/AUTH_b88187e7335244f6a9912624de435103/videos2017/logo/mp4/fr/720/010103_720p_fr.mp4']]);
+        }
+        
         $builder->add('answerText');
 
         $builder->add('answerAudioFichier', SoundType::class);

@@ -125,10 +125,11 @@ function afficheBoards()
         $('#back-to-home').hide();
 
 
-
-
+ 
+        
         if (getCurrentQuestion().questionHasVideo)
         {
+          
             playQuestionVideo();
         }
         else
@@ -243,15 +244,23 @@ function afficheBoards()
     
     function playQuestionVideo()
     {
-        if (getCurrentQuestion().questionVideoYoutube)
-        {
-            $('#video_question').html("<iframe  width='100%' height='auto' src='https://www.youtube.com/embed/" + getCurrentQuestion().questionVideoYoutube + "?autoplay=1' frameborder='0' allowfullscreen>");
-        }
-        if (getCurrentQuestion().questionVideo)
-        {
-            playVideoPlayer(root + getCurrentQuestion().questionVideo);
             goodReponse=false;
-        }
+            
+            if (getCurrentQuestion().questionVideoYoutube)
+            {
+                $('#video_question').html("<iframe  width='100%' height='auto' src='https://www.youtube.com/embed/" + getCurrentQuestion().questionVideoYoutube + "?autoplay=1' frameborder='0' allowfullscreen>");
+            }
+            
+            if (getCurrentQuestion().questionVideoLink)
+            {
+                playVideoPlayer(getCurrentQuestion().questionVideoLink);
+            }
+            if (getCurrentQuestion().questionVideo)
+            {
+                    playVideoPlayer(root + getCurrentQuestion().questionVideo);
+            }
+            
+            
         $('#skip-video-question-intro').show();
     }
     
