@@ -46,9 +46,13 @@
             {%  endif %}
         </div>
     </div>
-    <div class="row">
+   <div class="row">
         <div class="col-md-6">
-            {{ form_row(form.questionVideoFichier) }}
+            
+            
+            {% if form.questionVideoFichier is defined %}
+                {{ form_row(form.questionVideoFichier) }}
+            {%  endif %}
 
             {%  if question is defined %}
             {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.questionVideo}) }}
@@ -56,7 +60,10 @@
 
         </div>
         <div class="col-md-6">
-            {{ form_row(form.answerVideoFichier) }}
+            {% if form.answerVideoFichier is defined %}
+                {{ form_row(form.answerVideoFichier) }}
+            {%  endif %}
+            
             {%  if question is defined %}
             {{ include('@AldafluxGameQuizz/admin/inc/_file.html.twig', {'file': question.answerVideo}) }}
             {%  endif %}
