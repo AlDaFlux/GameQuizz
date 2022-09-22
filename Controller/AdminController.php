@@ -607,24 +607,23 @@ class AdminController extends AbstractController
     public function AnswerEditAction(Request $request, Answer $answer)
     {
         $question=$answer->GetQuestion();
-        
-        $form = $this->createForm(AnswerType::class, $answer );
+        $fields=$this->parameter->Get("aldaflux_game_quizz.fields");
+        $form = $this->createForm(AnswerType::class, $answer, ['fields'=>$fields]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            
-            
             $folder=$this->getQuestionFolder($question);
             $ordre=$form->get('ordre')->getData();
-            $file = $form->get('answerAudioFichier')->getData();
-            if ($file)
+            
+            if ($fields["audio"]["reponses"])
             {
-                $questionAudioFileName = $this->quizzUploader->uploadSound($file, $folder, "answer_".$ordre);
-                $answer->setAnswerAudio($questionAudioFileName);
-            }
-
-            
-            
+                $file = $form->get('answerAudioFichier')->getData();
+                if ($file)
+                {
+                    $questionAudioFileName = $this->quizzUploader->uploadSound($file, $folder, "answer_".$ordre);
+                    $answer->setAnswerAudio($questionAudioFileName);
+                }
+            } 
             $entityManager->persist($answer);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$answer->getQuestion()->getId()]);
