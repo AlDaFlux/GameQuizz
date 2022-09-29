@@ -3,14 +3,10 @@
 namespace Aldaflux\GameQuizzBundle\Form;
 
 use Aldaflux\GameQuizzBundle\Entity\Question;
-
-
-use Symfony\Component\Form\AbstractType;
-
 use Aldaflux\GameQuizzBundle\Form\Type\SoundType;
 use Aldaflux\GameQuizzBundle\Form\Type\VideoType;
-
-
+use Aldaflux\GameQuizzBundle\Form\Type\YoutubeUrlCodeType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -39,7 +35,7 @@ class QuestionType extends AbstractType
         
         if ($options["fields"]["video"]["youtube"])
         {   
-            $builder->add('questionVideoYoutube');
+            $builder->add('questionVideoYoutube', YoutubeUrlCodeType::class, ["label"=>"Vidéo de mise en situation",'attr'=>['placeholder'=>'https://www.youtube.com/watch?v=7RMQksXpQSk']]);
         }
         if ($options["fields"]["video"]["mpg"])
         {
@@ -65,7 +61,7 @@ class QuestionType extends AbstractType
         }
         if ($options["fields"]["video"]["youtube"])
         {
-            $builder->add('answerVideoYoutube');
+            $builder->add('answerVideoYoutube', YoutubeUrlCodeType::class, ["label"=>"Vidéo youtube réponse"]);
         }
         
         $builder->add('published');
