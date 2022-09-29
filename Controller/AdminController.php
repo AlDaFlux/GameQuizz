@@ -65,6 +65,7 @@ class AdminController extends AbstractController
      */
     public function indexAction()
     {
+        
         return $this->render('@AldafluxGameQuizz/admin/Game/index.html.twig', ['games'=>$this->GetEm()->getRepository(Game::class)->findAll()]);
     }
 
@@ -73,6 +74,7 @@ class AdminController extends AbstractController
      */
     public function GameShowAction(Game $game)
     {
+        
         return $this->render('@AldafluxGameQuizz/admin/Game/show.html.twig', ['game'=>$game]);
     }
     
@@ -248,6 +250,28 @@ class AdminController extends AbstractController
         
         return $this->render('@AldafluxGameQuizz/admin/Board/show.html.twig', ['board'=>$board,"fields"=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
     }
+    
+    
+    /**
+     * @Route("/game_{id}/reorder", methods={"GET"}, name="algq_admin_game_reorder")
+     */
+    public function GameReorderAction(Game $game)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $i=0;
+        foreach ($game->getBoards() as $board)
+        {
+            $i++;
+            $board->SetOrdre($i);
+            $entityManager->persist($board);
+        }
+        $entityManager->flush();
+        $this->addFlash('success', 'Les plateaux ont été réordonnées');
+        return $this->redirectToRoute('algq_admin_game_show', ['id'=>$game->getId()]);
+    }
+    
+    
+    
     
     /**
      * @Route("/board_{id}/reorder", methods={"GET"}, name="algq_admin_board_reorder")

@@ -96,7 +96,14 @@
                 </tr>
 
                 {% if fields["video"]["youtube"]  %}
-                    <tr><th>answerVideoYoutube</th><td>{{ question.answerVideoYoutube}}</td></tr>
+                    <tr><th>answerVideoYoutube</th>
+                            <td>
+                                {% if question.answerVideoYoutube %}
+                                    <img width='50px' src='https://img.youtube.com/vi/{{ question.answerVideoYoutube}}/0.jpg'>
+                                {%  endif  %}
+                            </td>
+                    </tr>
+                    
                 {%  endif  %}
             </table>
 

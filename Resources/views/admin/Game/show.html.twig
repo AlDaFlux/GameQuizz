@@ -7,7 +7,7 @@
 
     <ul>
     {%  for  board in game.boards %}
-        <li><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'>{{ board }}</a></li>
+        <li><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'><b>{{ board.ordre}}</b> : {{ board }}</a></li>
         <ul>
         {%  for  question in board.questions %}
             <li><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a>
@@ -39,6 +39,10 @@
        <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_game_edit", {'id':game.id}) }}'>Modifier</a>
        <p><br>
        <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_game_new_board", {'id':game.id}) }}'>Nouveau plateau  </a>
+        {%  if not game.boardsAreOrdered%}
+               <p><br>
+            <a class="btn btn-lg btn-block btn-danger"  href='{{ path("algq_admin_game_reorder", {'id':game.id}) }}'>Réordonner les plateaux</a>
+        {%  endif  %}
        <p><br>
        <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_game_json", {'id':game.id}) }}'>JSON</a>
     {%  endif  %}
