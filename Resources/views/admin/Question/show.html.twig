@@ -44,7 +44,13 @@
                 </tr>
                 
                 {% if fields["video"]["youtube"]  %}
-                    <tr><th>questionVideoYoutube</th><td>{{ question.questionVideoYoutube}}</td></tr>
+                    <tr><th>questionVideoYoutube</th>
+                            <td>
+                                    {% if question.answerVideoYoutube %}
+                                       <a href="https://www.youtube.com/watch?v={{ question.questionVideoYoutube}}" target='blank'><img width='150px' src='https://img.youtube.com/vi/{{ question.questionVideoYoutube}}/0.jpg'></a>
+                                    {%  endif  %}
+                            </td>
+                        </tr>
                 {% endif %}
                 
                 {% if question.published  %}
@@ -99,7 +105,7 @@
                     <tr><th>answerVideoYoutube</th>
                             <td>
                                 {% if question.answerVideoYoutube %}
-                                    <img width='50px' src='https://img.youtube.com/vi/{{ question.answerVideoYoutube}}/0.jpg'>
+                                   <a href="https://www.youtube.com/watch?v={{ question.answerVideoYoutube}}" target='blank'><img width='150px' src='https://img.youtube.com/vi/{{ question.answerVideoYoutube}}/0.jpg'></a>
                                 {%  endif  %}
                             </td>
                     </tr>
