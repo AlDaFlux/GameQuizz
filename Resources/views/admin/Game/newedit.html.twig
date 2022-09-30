@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit / create Game{% endblock %}
+
+{% block body %}
+    <h1>New Game</h1>
+    {{ include('@AldafluxGameQuizz/admin/inc/_form.html.twig', {'button_label': 'Save'}) }}
+{% endblock %}

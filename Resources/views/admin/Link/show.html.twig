@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    
+<h1><a href='{{ path("algq_admin_game_show", {'id':link.game.id}) }}'>{{ link.game }}</a></h1>
+    <h2><a href='{{ path("algq_admin_link_show", {'id':link.id}) }}'>{{ link }}</a></h2>
+    <p>
+    <br>
+    <p>
+    <br>
+     <table class='table table-bordered'>
+                <thead>
+                    <tr>
+                        <th>Ordre</th>
+                        <th>Nom</th>
+                        <th>Question</th>
+                        <th>NbReponses</th>
+                        <th>Publiée</th>
+                        <th>Question au</th>
+                    </tr>
+                </thead>
+                <tbody>
+        {%  for  link in link.questions %}
+                    <tr>
+                        <td>{{ question.ordre}}</td>
+                        <td><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question}}</a></td>
+                        <td>{{ question.questionText}}</td>
+                        <td>{{ question.answersCount}}</td>
+                    
+                    </tr>
+        {%  endfor  %}
+                </tbody>
+    </table>
+                
+
+{% endblock %}
+
+
+{% block sidebar %}
+ {% if is_granted('ROLE_GAME_EDITOR') %}
+    {%  if link.deletable %}
+            {{ include('@AldafluxGameQuizz/admin/Link/_delete_form.html.twig') }}
+    {%  endif  %}
+    <p><br>
+    <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_link_edit", {'id':link.id}) }}'>Modifier</a>
+    <p><br>
+        
+<a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_link_new_question", {'id':link.id}) }}'>Nouvau lien</a>
+    {%  endif  %}
+
+{% endblock %}

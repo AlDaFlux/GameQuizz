@@ -1,0 +1,51 @@
+var folder_sound;
+var game_json;
+var json_game_data;
+var question_id;
+//var question_ordre;
+var plateau_id ;
+var enumeration=false;
+var goodReponse;
+var nb_reponses;
+
+var mode_player;
+
+
+var current_reponse_play;
+var root;
+
+{% if cordova is not defined %}
+    {% set cordova = false %}
+{% endif  %}
+
+
+{% if cordova %}
+    {%  set bundle_folder = "" %}
+{% else  %}
+    {%  set bundle_folder = "/bundles/aldafluxgamequizz/" %}
+{% endif  %}
+
+icon_good = '{{  bundle_folder ~ 'img/icons/answer_good.png'  }}';
+icon_false = '{{ bundle_folder ~ 'img/icons/answer_false.png'  }}';
+icon_answer_no = '{{ bundle_folder ~ 'img/icons/answer_no.png'  }}';
+
+
+
+answer_good_sound = "{{  bundle_folder ~ 'sons/answer_good.mp3' }}";
+answer_bad_sound = "{{ bundle_folder ~ 'sons/answer_bad.mp3' }}";
+
+
+
+{% if cordova %}
+    game_json="game_quizz_data/game.json";
+{% else %}
+    game_json="{{ path('algq_game_json', {'id':game.id} ) }}";
+{% endif %}
+
+
+
+{% if question is defined %}
+    question_id={{question.id}};
+    plateau_id={{question.board.id}};
+{% endif  %}
+
