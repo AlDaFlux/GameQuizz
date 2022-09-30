@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+
+        <h1><a href='{{ path("algq_admin_game_show", {'id':question.game.id}) }}'>{{ question.game }}</a></h1>
+    
+    {%  if  question.board is not empty %}
+            <h2><a href='{{ path("algq_admin_board_show", {'id':question.board.id}) }}'>{{ question.board }}</a></h2>
+    {%  endif  %}
+            <h3><a href='{{ path("algq_admin_question_show", {'id':question.id}) }}'>{{ question }}</a></h3>
+            
+            {# dump(question) #}
+            
+            <table class='table table-bordered'>
+                <tr><th>Ordre</th><td>{{ question.ordre}}</td></tr>
+                <tr><th>question : Text</th><td>{{ question.questionText}}</td></tr>
+                {% if fields["audio"]["question"]  %}
+                <tr>
+                    <th>question : Audio</th>
+                    <td>
+                    {%  if  question.questionAudio is not empty %}
+                        <audio controls title='{{ question.questionAudio}}'>
+                            <source src="/{{ question.questionAudio}}?{{ random() }}" >
+                        </audio> 
+                        
+                    {%  endif  %}
+                    </td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th>Vidéo de mise en situation </th>
+                    <td>
+                    {%  if  question.questionVideo is not empty %}
+                        <video height='120px' controls title='{{ question.questionVideo}}'>
+                            <source src="/{{ question.questionVideo}}?{{ random() }}" >
+                        </video> 
+                    {%  elseif  question.questionVideoLink is not empty %}
+                        <video height='120px' controls title='{{ question.questionVideoLink}}'>
+                            <source src="{{ question.questionVideoLink}}?{{ random() }}" >
+                        </video> 
+                    {%  endif  %}
+                    </td>
+                </tr>
+                
+                {% if fields["video"]["youtube"]  %}
+                    <tr><th>questionVideoYoutube</th>
+                            <td>
+                                    {% if question.answerVideoYoutube %}
+                                       <a href="https://www.youtube.com/watch?v={{ question.questionVideoYoutube}}" target='blank'><img width='150px' src='https://img.youtube.com/vi/{{ question.questionVideoYoutube}}/0.jpg'></a>
+                                    {%  endif  %}
+                            </td>
+                        </tr>
+                {% endif %}
+                
+                {% if question.published  %}
+                        <tr class="alert-success"><th>Publication </th><td>La question est publiée et apparait sur le site</td></tr>
+                {% else  %}
+                        <tr class="alert-warning"><th>Publication</th><td>La question est en cours de rédaction et n'apparait pas sur le site</td></tr>
+                {% endif %}
+            </table>
+                
+
+            <table class='table table-bordered'>
+            <tr>
+                <tr><th>answerText</th><td>{{ question.answerText}}</td></tr>
+                {% if fields["audio"]["reponse"]  %}
+                <tr><th>answerAudio</th>
+                    <td>{%  if  question.answerAudio is not empty %}
+                        <audio controls title='{{ question.answerAudio}}'>
+                            <source src="/{{ question.answerAudio}}?{{ random() }}" >
+                        </audio> 
+                    {%  endif  %}
+                    </td>
+                    </tr>
+                {%  endif  %}
+                <tr><th>answerPlusText</th><td>{{ question.answerPlusText}}</td></tr>
+                {% if fields["audio"]["reponse"]  %}
+                <tr><th>answerPlusAudio</th>
+                    <td>{%  if  question.answerPlusAudio is not empty %}
+                        <audio controls title='{{ question.answerPlusAudio}}'>
+                            <source src="/{{ question.answerPlusAudio}}?{{ random() }}" >
+                        </audio> 
+
+                            {#
+                            <a href="/{{ question.answerPlusAudio}}" >{{ question.answerPlusAudio}}</a>
+                            #}
+                    {%  endif  %}
+                    </td>
+                    </tr>
+                {%  endif  %}
+                
+                       <tr>
+                    <th>answerVideo</th>
+                    <td>
+                    {%  if  question.answerVideo is not empty %}
+                        <video height='120px' controls title='{{ question.answerVideo}}'>
+                            <source src="/{{ question.answerVideo}}?{{ random() }}" >
+                        </video> 
+                    {%  endif  %}
+                    </td>
+                </tr>
+
+                {% if fields["video"]["youtube"]  %}
+                    <tr><th>answerVideoYoutube</th>
+                            <td>
+                                {% if question.answerVideoYoutube %}
+                                   <a href="https://www.youtube.com/watch?v={{ question.answerVideoYoutube}}" target='blank'><img width='150px' src='https://img.youtube.com/vi/{{ question.answerVideoYoutube}}/0.jpg'></a>
+                                {%  endif  %}
+                            </td>
+                    </tr>
+                    
+                {%  endif  %}
+            </table>
+
+            
+            
+            <h2>Réponses</h2>
+            
+            <table class='table table-bordered'>
+    {%  for  answer in question.answers %}
+        
+            <tr {%  if answer.isGood %}class='alert-success'{% endif  %}>
+                <td><a href='{{ path("algq_admin_answer_show", {'id':answer.id}) }}'>{{ answer.ordre}}</a></td>
+                <td {%  if answer.isGood %}class='alert-success'{% endif  %}>{{ answer.answerText}}</td>
+                
+                {% if fields["audio"]["reponses"]  %}
+                <td>
+                    {%  if  answer.answerAudio is not empty %}
+                        <audio controls title='{{ answer.answerAudio}}'>
+                            <source src="/{{ answer.answerAudio}}?{{ random() }}" >
+                        </audio> 
+                    {%  endif  %}
+                </td>
+                {% endif %}
+                <td>{{ answer.isGood}}</td>
+
+                
+                
+            </tr>
+    {% else  %}
+        <div class='alert alert-danger'>
+            Aucune reponses !!
+        </div>
+            
+    {%  endfor  %}
+    </table>
+
+    
+
+{% endblock %}
+
+{% block sidebar %} 
+
+    <a class="btn btn-lg btn-block btn-primary"   href='{{ path("algq_play_question", {'slug':question.game.slug, 'id':question.id}) }}'>Play</a>
+       <p><br>
+    {% if is_granted('ROLE_GAME_EDITOR') %}
+        
+        {%  if question.deletable %}
+               {{ include('@AldafluxGameQuizz/admin/Question/_delete_form.html.twig') }}
+       {%  endif  %}
+
+       <p><br>
+       <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_question_edit", {'id':question.id}) }}'>Modifier</a>
+       <p><br>
+
+       <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_question_new_answer", {'id':question.id}) }}'>Nouvelle réponse</a>
+       
+        {%  if not question.AnswersAreOrdered %}
+            <a class="btn btn-lg btn-block btn-danger"  href='{{ path("algq_admin_question_reorder", {'id':question.id}) }}'>Réordonner les questions</a>
+        {%  endif  %}
+
+        <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_question_shuffle", {'id':question.id}) }}'>Schuffle </a>
+        
+  
+    {%  endif  %}
+{% endblock %}

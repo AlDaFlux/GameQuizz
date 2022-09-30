@@ -1,0 +1,53 @@
+#    al_da_flux_game_quizz.example:
+#        class: Aldaflux\GameQuizzBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+services:
+    _defaults:
+        autowire: true
+    game-quizz-bundle.file_upload:
+        class: Aldaflux\GameQuizzBundle\Service\QuizzUploader
+        public: true
+        autowire: true
+        autoconfigure: true
+    Aldaflux\GameQuizzBundle\Service\QuizzUploader: '@game-quizz-bundle.file_upload'
+    
+
+    Aldaflux\GameQuizzBundle\Controller\AdminController:
+      arguments:
+              - '@game-quizz-bundle.file_upload'
+              - '@doctrine.orm.default_entity_manager'              
+              - '@parameter_bag'              
+      tags: ['controller.service_arguments']
+      
+    Aldaflux\GameQuizzBundle\Controller\GameController:
+      arguments:
+              - '@doctrine.orm.default_entity_manager'
+      tags: ['controller.service_arguments']      
+      
+              
+#    game-quizz-bundle.controller.admin:
+#          class: Aldaflux\GameQuizzBundle\Controller\AdminController
+#          arguments:
+#              - '@game-quizz-bundle.file_upload'
+#          tags: ['controller.service_arguments']
+
+    
+    
+    Aldaflux\GameQuizzBundle\Repository\:
+        resource: ../../Repository  
+        tags: ['doctrine.repository_service']
+
+    Aldaflux\GameQuizzBundle\Command\GameListCommand:
+        tags:
+            - { name: 'console.command', command: 'game:list' }
+    Aldaflux\GameQuizzBundle\Command\SoundTestFileCommand:
+        tags:
+            - { name: 'console.command', command: 'game:sound-test' }
+    Aldaflux\GameQuizzBundle\Command\WavToMp3Command:
+        tags:
+            - { name: 'console.command', command: 'game:sound-tomp3' }
+    Aldaflux\GameQuizzBundle\Command\BuildCordovaCommand:
+        tags:
+            - { name: 'console.command', command: 'game:build-cordova' }
+ 
+        
