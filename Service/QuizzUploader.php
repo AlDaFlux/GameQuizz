@@ -4,11 +4,9 @@ namespace Aldaflux\GameQuizzBundle\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 class QuizzUploader

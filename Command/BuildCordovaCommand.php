@@ -14,9 +14,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 
+
 use Symfony\Component\Serializer\SerializerInterface;
 
  
+use Twig\Environment;
+
 class BuildCordovaCommand extends Command
 {
     protected static $defaultName = 'game:build-cordova';
@@ -29,12 +32,12 @@ class BuildCordovaCommand extends Command
     private $outputFolder;
     private $serializer;
 
-    public function __construct(EntityManagerInterface $em,ContainerInterface $container, SerializerInterface $serializer)
+    public function __construct(EntityManagerInterface $em,Environment $templating, SerializerInterface $serializer)
     {
         parent::__construct();
         $this->em = $em;
-        $this->container = $container;
-        $this->templating = $container->get('templating');
+//        $this->container = $container;
+        $this->templating = $templating;
          
         $this->gameRepo =  $this->em->getRepository(Game::class);
         
