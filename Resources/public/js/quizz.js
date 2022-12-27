@@ -57,7 +57,7 @@ folder_sound=root+"sons/";
 function quitApp()
 {
 
-    cordova.plugins.exit();
+    navigator.app.exitApp();
     /*
     if (navigator.app) {
     }
