@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+
+    
+<h1><a href='{{ path("algq_admin_game_show", {'id':board.game.id}) }}'>{{ board.game }}</a></h1>
+    <h2><a href='{{ path("algq_admin_board_show", {'id':board.id}) }}'>{{ board }}</a></h2>
+    <p>
+    <br>
+    <p>
+    <br>
+            {{ include('@AldafluxGameQuizz/admin/Board/_tableau.html.twig') }}
+    
+    
+
+
+{% endblock %}
+
+
+{% block sidebar %}
+ {% if is_granted('ROLE_GAME_EDITOR') %}
+    {%  if board.deletable %}
+            {{ include('@AldafluxGameQuizz/admin/Board/_delete_form.html.twig') }}
+    {%  endif  %}
+    <p><br>
+    <p><br>
+    <a class="btn btn-lg btn-block btn-warning"  href='{{ path("algq_admin_board_edit", {'id':board.id}) }}'>Modifier</a>
+    <p><br>
+        
+    <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_new_question", {'id':board.id}) }}'>Nouvelle question</a>
+    
+    {%  if board.nbQuestions %}
+        {%  if not board.getFullPublished %}
+            <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_publish_all", {'id':board.id}) }}'><i class="alert-success far fa-check-circle"></i> Tout publier</a>
+        {%  endif %}
+        {%  if  board.NbQuestionsPublished %}
+            <a class="btn btn-lg btn-block btn-primary"  href='{{ path("algq_admin_board_unpublish_all", {'id':board.id}) }}'><i class="alert-danger far fa-circle"></i> Tout dépublier</a>
+        {%  endif %}
+    {%  endif %}
+    
+        {%  if not board.QuestionsAreOrdered%}
+            <a class="btn btn-lg btn-block btn-danger"  href='{{ path("algq_admin_board_reorder", {'id':board.id}) }}'>Réordonner les questions</a>
+        {%  endif  %}
+    {%  endif  %}
+
+{% endblock %}

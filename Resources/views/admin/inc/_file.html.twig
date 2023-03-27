@@ -1,0 +1,5 @@
+{%  if file is empty %}
+        <div class='alert alert-danger'>Pas de fichier pour l'instant</div>
+{%  else  %}
+        <div class='alert alert-success'><a href='/{{ file}}' target="blank">{{ file}}</a></div>
+{%  endif %}

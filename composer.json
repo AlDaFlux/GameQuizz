@@ -1,0 +1,17 @@
+{
+        "name": "aldaflux/game-quizz-bundle",
+        "type": "symfony-bundle",
+        "description": "Symfony Bundle de création de quizz ",
+        "keywords": ["api", "quizz", "game"],
+        "license": "GPL-3.0+",
+        "require": {
+            "php": ">=5.3.2",
+            "symfony/framework-bundle": ">=5.2",
+	    "twig/twig": "*",
+            "doctrine/doctrine-bundle": "*"
+        },
+        "autoload": {
+            "psr-4": { "Aldaflux\\GameQuizzBundle\\": "" }
+        },
+        "minimum-stability": "dev"
+    }

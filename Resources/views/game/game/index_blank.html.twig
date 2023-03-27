@@ -1,0 +1,24 @@
+{% extends '@AldafluxGameQuizz/base_blank.html.twig' %}
+
+        {% block stylesheets %}
+            {{ parent() }}
+              <link rel="stylesheet" href="css/bootstrap.css" />
+              <link rel="stylesheet" href="css/quizz.css" />
+        {% endblock %}
+        {% block javascripts %}
+             <script src="js/jquery-3.4.1.min.js"></script>
+             <script src="js/quizz.js"></script>
+             <script src="js/init.js"></script>
+        {% endblock %}
+
+{% block body %}
+    {{ include('@AldafluxGameQuizz/game/game/_inc_game_play.html.twig') }}
+    
+
+    <a onclick="javascript:quitApp();"  id='quit' class='btn'>Quitter l'application</a>
+
+            
+            
+{% endblock %}
+
+
