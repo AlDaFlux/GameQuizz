@@ -5,10 +5,12 @@
         "keywords": ["api", "quizz", "game"],
         "license": "GPL-3.0+",
         "require": {
-            "php": ">=5.3.2",
+            "php": ">=7.3.2",
             "symfony/framework-bundle": ">=5.2",
 	    "twig/twig": "*",
-            "doctrine/doctrine-bundle": "*"
+            "doctrine/doctrine-bundle": "*",
+            "google/cloud-text-to-speech": "*",
+            "stof/doctrine-extensions-bundle": ">=1.7"
         },
         "autoload": {
             "psr-4": { "Aldaflux\\GameQuizzBundle\\": "" }

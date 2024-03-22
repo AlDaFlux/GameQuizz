@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  
 class SoundTestFileCommand extends Command
 {
-    protected static $defaultName = 'game:sound-test';
+    protected static $defaultName = 'game:sound:test';
  
     protected $parameterBag;
     
@@ -121,6 +121,8 @@ HELP
             }
             
         }
+
+        return Command::SUCCESS;
     }
 
     function GetFolderPublic()

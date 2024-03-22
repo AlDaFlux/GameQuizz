@@ -57,7 +57,14 @@ folder_sound=root+"sons/";
 function quitApp()
 {
 
-    cordova.plugins.exit();
+    if (typeof cordova !== 'undefined') {
+        cordova.plugins.exit();
+    }
+    else
+    {
+        window.location.href = "/";  
+    }
+    
     /*
     if (navigator.app) {
     }

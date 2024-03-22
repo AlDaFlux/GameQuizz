@@ -45,7 +45,7 @@ class GameController extends AbstractController
      */
     public function indexAction()
     {
-        $defaultGame= $this->GetEm()->getRepository(Game::class)->findOneById(1);
+        $defaultGame= $this->GetEm()->getRepository(Game::class)->findDefault();
          if ($defaultGame)
         {
             return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
@@ -62,7 +62,9 @@ class GameController extends AbstractController
      */
     public function index2Action()
     {
-        $defaultGame= $this->GetEm()->getRepository(Game::class)->findOneById(1);
+        
+        $defaultGame= $this->GetEm()->getRepository(Game::class)->findDefault();
+ 
         return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
     }
         

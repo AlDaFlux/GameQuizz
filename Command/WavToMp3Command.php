@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  
 class WavToMp3Command extends Command
 {
-    protected static $defaultName = 'game:sound-tomp3';
+    protected static $defaultName = 'game:sound:tomp3';
  
     protected $parameterBag;
     

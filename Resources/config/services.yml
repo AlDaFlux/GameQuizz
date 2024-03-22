@@ -42,10 +42,17 @@ services:
             - { name: 'console.command', command: 'game:list' }
     Aldaflux\GameQuizzBundle\Command\SoundTestFileCommand:
         tags:
-            - { name: 'console.command', command: 'game:sound-test' }
+            - { name: 'console.command', command: 'game:sound:test' }
+    Aldaflux\GameQuizzBundle\Command\SoundGenereCommand:
+        arguments:
+              - '@doctrine.orm.default_entity_manager'              
+              - '@parameter_bag'              
+              - '@game-quizz-bundle.file_upload'
+        tags:
+            - { name: 'console.command', command: 'game:sound:genere' }
     Aldaflux\GameQuizzBundle\Command\WavToMp3Command:
         tags:
-            - { name: 'console.command', command: 'game:sound-tomp3' }
+            - { name: 'console.command', command: 'game:sound:tomp3' }
     Aldaflux\GameQuizzBundle\Command\BuildCordovaCommand:
         tags:
             - { name: 'console.command', command: 'game:build-cordova' }

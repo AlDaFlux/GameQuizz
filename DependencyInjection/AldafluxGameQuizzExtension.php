@@ -22,8 +22,6 @@ class AldafluxGameQuizzExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter( 'abcd', "abcd" );
-
         $container->setParameter( 'aldaflux_game_quizz.fields', $config[ 'fields' ] );
         $container->setParameter( 'aldaflux_game_quizz.folders', $config[ 'folders' ] );
         
@@ -33,6 +31,10 @@ class AldafluxGameQuizzExtension extends Extension
         $container->setParameter( 'aldaflux_game_quizz.folder_audio', $config[ 'folders' ]["audio"] );
         $container->setParameter( 'aldaflux_game_quizz.folder_public', $config[ 'folders' ]["public"] );
         
+        if (isset($config[ 'google_json' ]))
+        {
+            $container->setParameter( 'aldaflux_game_quizz.google_json', $config[ 'google_json' ] );
+        }
         
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
