@@ -49,7 +49,9 @@ class SoundGenereCommand extends Command
         $this->publicDirectory=$this->parameterBag->get("aldaflux_game_quizz.folder_public");
         $this->questionRepo =  $this->em->getRepository(Question::class);
         $this->answerRepo =  $this->em->getRepository(Answer::class);
-        $this->googleJson =  $this->parameterBag->get('aldaflux_game_quizz.google_json');
+        $this->googleJson = $this->parameterBag->has('aldaflux_game_quizz.google_json')
+            ? $this->parameterBag->get('aldaflux_game_quizz.google_json')
+            : null;
                
     }
 
