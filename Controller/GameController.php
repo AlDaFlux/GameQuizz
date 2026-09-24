@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityManager;
  
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GameController extends AbstractController
 {
