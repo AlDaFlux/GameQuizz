@@ -28,14 +28,14 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 
 class AdminController extends AbstractController
 {
     
-    public function __construct(private readonly QuizzUploader $quizzUploader, private readonly EntityManager $em, private readonly ParameterBagInterface $parameter)
+    public function __construct(private readonly QuizzUploader $quizzUploader, private readonly EntityManagerInterface $em, private readonly ParameterBagInterface $parameter)
     {
     }
 
@@ -44,7 +44,7 @@ class AdminController extends AbstractController
     public function GetEm()
     {
  
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em;
         return($em);
     }
         
@@ -72,7 +72,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(GameType::class, $game );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($game);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_game_show', ['id'=>$game->getId()]);
@@ -92,7 +92,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(GameType::class, $game );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($game);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_game_show', ['id'=>$game->getId()]);
@@ -109,7 +109,7 @@ class AdminController extends AbstractController
     public function GameDeleteAction(Request $request,Game $game)
     {
         if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->remove($game);
             $entityManager->flush();
             $this->addFlash('success', 'DELETE : '.$game);
@@ -130,7 +130,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(LinkType::class, $link );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($link);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_link_show', ['id'=>$link->getId()]);
@@ -163,7 +163,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(BoardType::class, $board );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($board);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_board_show', ['id'=>$board->getId()]);
@@ -181,7 +181,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(BoardType::class, $board );
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($board);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_board_show', ['id'=>$board->getId()]);
@@ -202,7 +202,7 @@ class AdminController extends AbstractController
         
         $id_game=$board->getGame()->getId();
          if ($this->isCsrfTokenValid('delete'.$board->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->remove($board);
             $entityManager->flush();
             $this->addFlash('success', 'DELETE : '.$board);
@@ -222,7 +222,7 @@ class AdminController extends AbstractController
     #[Route(path: '/game_{id}/reorder', methods: ['GET'], name: 'algq_admin_game_reorder')]
     public function GameReorderAction(Game $game)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->em;
         $i=0;
         foreach ($game->getBoards() as $board)
         {
@@ -241,7 +241,7 @@ class AdminController extends AbstractController
     #[Route(path: '/board_{id}/reorder', methods: ['GET'], name: 'algq_admin_board_reorder')]
     public function BoardReorderAction(Board $board)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->em;
         $i=0;
         foreach ($board->getQuestions() as $question)
         {
@@ -258,7 +258,7 @@ class AdminController extends AbstractController
     #[Route(path: '/board_{id}/publish_all', name: 'algq_admin_board_publish_all', methods: ['GET'])]
     public function boardPublishQuestion(Board $board) 
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->em;
         foreach ($board->getQuestions() as $question)
         {
             $question->setPublished(true);
@@ -271,7 +271,7 @@ class AdminController extends AbstractController
     #[Route(path: '/board_{id}/unpublish_all', name: 'algq_admin_board_unpublish_all', methods: ['GET'])]
     public function boardUnPublishQuestion(Board $board) 
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->em;
         foreach ($board->getQuestions() as $question)
         {
             $question->setPublished(false);
@@ -323,7 +323,7 @@ class AdminController extends AbstractController
                 }
             }   
             
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($question);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
@@ -347,7 +347,7 @@ class AdminController extends AbstractController
     #[Route(path: '/question_{id}/reorder', methods: ['GET'], name: 'algq_admin_question_reorder')]
     public function QuestionReorderAction(Question $question)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->em;
         $i=0;
         foreach ($question->getAnswers() as $answer)
         {
@@ -366,7 +366,7 @@ class AdminController extends AbstractController
        
         public function reodredAll()
         {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             
             foreach ($this->GetEm()->getRepository(Question::class)->findAll() as $question)
             {
@@ -385,7 +385,7 @@ class AdminController extends AbstractController
     #[Route(path: '/question_{id}/shuffle', methods: ['GET'], name: 'algq_admin_question_shuffle')]
     public function QuestionShuffleAction(Question $question)
     {
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->em;
         $iiis=range(1, $question->getAnswersCount());
         shuffle($iiis); 
 
@@ -471,7 +471,7 @@ class AdminController extends AbstractController
 
             
             
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->persist($question);
             $entityManager->flush();
             return $this->redirectToRoute('algq_admin_question_show', ['id'=>$question->getId()]);
@@ -493,7 +493,7 @@ class AdminController extends AbstractController
         
         $id_game=$question->getGame()->getId();
          if ($this->isCsrfTokenValid('delete'.$question->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->remove($question);
             $entityManager->flush();
             $this->addFlash('success', 'DELETE : '.$question);
@@ -533,7 +533,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(AnswerType::class, $answer, ['fields'=>$fields]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             
             $folder=$this->getQuestionFolder($question);
             $ordre=$form->get('ordre')->getData();
@@ -575,7 +575,7 @@ class AdminController extends AbstractController
         $form = $this->createForm(AnswerType::class, $answer, ['fields'=>$fields]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $folder=$this->getQuestionFolder($question);
             $ordre=$form->get('ordre')->getData();
             
@@ -610,7 +610,7 @@ class AdminController extends AbstractController
         
         $id_question=$answer->getQuestion()->getId();
          if ($this->isCsrfTokenValid('delete'.$answer->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->em;
             $entityManager->remove($answer);
             $entityManager->flush();
             $this->addFlash('success', 'DELETE : '.$answer);

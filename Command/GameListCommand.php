@@ -6,6 +6,7 @@ namespace Aldaflux\GameQuizzBundle\Command;
 use Aldaflux\GameQuizzBundle\Entity\Game; 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
  
@@ -13,10 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 
  
+#[AsCommand(name: 'game:list')]
 class GameListCommand extends Command
 {
-    protected static $defaultName = 'game:list';
- 
     private $gameRepo;
 
     public function __construct(private readonly EntityManagerInterface $em)

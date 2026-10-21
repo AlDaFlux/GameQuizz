@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Aldaflux\GameQuizzBundle\Entity\Game; 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
  
@@ -22,10 +23,9 @@ use Imagine\Image\Box;
  
 use Twig\Environment;
 
+#[AsCommand(name: 'game:android:create-thumpb')]
 class CreateAndroidThumbCommand extends Command
 {
-    protected static $defaultName = 'game:android:create-thumpb';
- 
     private $game;
     private $gameRepo;
     private $container;

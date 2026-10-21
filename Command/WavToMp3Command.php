@@ -7,6 +7,7 @@ use Aldaflux\GameQuizzBundle\Entity\Answer;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
  
@@ -17,10 +18,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 
  
+#[AsCommand(name: 'game:sound:tomp3')]
 class WavToMp3Command extends Command
 {
-    protected static $defaultName = 'game:sound:tomp3';
- 
     protected $parameterBag;
     
     private $questionRepo;

@@ -16,18 +16,18 @@ use Aldaflux\GameQuizzBundle\Entity\Answer;
  
 
   
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
  
 
  
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class GameController extends AbstractController
 {
 
-    public function __construct(private readonly EntityManager $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
     }
     

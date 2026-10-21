@@ -9,6 +9,7 @@ use Aldaflux\GameQuizzBundle\Entity\Answer;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
  
@@ -27,10 +28,9 @@ use Aldaflux\GameQuizzBundle\Service\QuizzUploader;
 
 
  
+#[AsCommand(name: 'game:sound:genere')]
 class SoundGenereCommand extends Command
 {
-    protected static $defaultName = 'game:sound:genere';
-
     private $soundDirectory;
     
     private $questionRepo;
