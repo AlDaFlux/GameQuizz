@@ -241,6 +241,11 @@ function afficheBoards()
         
     }
     
+    function youtubeIframe(videoId, autoplay)
+    {
+        return "<iframe class='youtube-player' src='https://www.youtube.com/embed/" + videoId + "?autoplay=" + autoplay + "&rel=0&playsinline=1' title='Vidéo' allow='autoplay; encrypted-media; picture-in-picture; fullscreen' allowfullscreen></iframe>";
+    }
+
     function playVideoPlayer(src)
     {
             $('#video_question_player').show();
@@ -255,7 +260,7 @@ function afficheBoards()
             
             if (getCurrentQuestion().questionVideoYoutube)
             {
-                $('#video_question').html("<iframe  width='100%' height='auto' src='https://www.youtube.com/embed/" + getCurrentQuestion().questionVideoYoutube + "?autoplay=1' frameborder='0' allowfullscreen>");
+                $('#video_question').html(youtubeIframe(getCurrentQuestion().questionVideoYoutube, 1));
             }
             
             if (getCurrentQuestion().questionVideoLink)
@@ -279,7 +284,7 @@ function afficheBoards()
         $("#question_answer_plus").hide();
         if (getCurrentQuestion().answerVideoYoutube)
         {
-            $('#video_question').html("<iframe  width='100%' height='auto' src='https://www.youtube.com/embed/" + getCurrentQuestion().answerVideoYoutube + "?autoplay=0' frameborder='0' allowfullscreen>");
+            $('#video_question').html(youtubeIframe(getCurrentQuestion().answerVideoYoutube, 0));
         }
         if (getCurrentQuestion().answerVideo)
         {

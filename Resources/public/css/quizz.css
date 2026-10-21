@@ -43,7 +43,22 @@ li
 
 .videoContainer video
 {
-    width:100%;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    background: #000;
+}
+
+.videoContainer iframe.youtube-player
+{
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 80vh;
+    border: 0;
+    background: #000;
 }
 
 
