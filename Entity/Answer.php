@@ -9,45 +9,34 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="algq_answer")
- */
-class Answer implements \JsonSerializable
+#[ORM\Entity]
+#[ORM\Table(name: 'algq_answer')]
+class Answer implements \JsonSerializable, \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $ordre;
     
 
     
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $answerText;
     
     
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $answerAudio;
     
     
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
+    #[ORM\JoinColumn(nullable: false)]
     private $question;
    
 
@@ -56,9 +45,8 @@ class Answer implements \JsonSerializable
 
      /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $isGood;
     
     
@@ -83,7 +71,7 @@ class Answer implements \JsonSerializable
 
     public function __toString(): string
     {
-        return $this->answerText;
+        return (string) $this->answerText;
     }
  
 

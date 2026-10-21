@@ -35,19 +35,8 @@ use Doctrine\ORM\EntityManager;
 class AdminController extends AbstractController
 {
     
-    private $quizzUploader;
-    private $em;
-    private $parameter;
-    
-    
-    
-    
-    public function __construct(QuizzUploader $quizzUploader,EntityManager $em, ParameterBagInterface $parameter)
+    public function __construct(private readonly QuizzUploader $quizzUploader, private readonly EntityManager $em, private readonly ParameterBagInterface $parameter)
     {
-     
-        $this->quizzUploader=$quizzUploader;
-        $this->parameter=$parameter;
-        $this->em=$em;
     }
 
 
@@ -60,27 +49,21 @@ class AdminController extends AbstractController
     }
         
         
-    /**
-     * @Route("/", name="algq_admin_homepage")
-     */
+    #[Route(path: '/', name: 'algq_admin_homepage')]
     public function indexAction()
     {
         
         return $this->render('@AldafluxGameQuizz/admin/Game/index.html.twig', ['games'=>$this->GetEm()->getRepository(Game::class)->findAll()]);
     }
 
-    /**
-     * @Route("/game_{id}", methods={"GET"}, name="algq_admin_game_show")
-     */
+    #[Route(path: '/game_{id}', methods: ['GET'], name: 'algq_admin_game_show')]
     public function GameShowAction(Game $game)
     {
         
         return $this->render('@AldafluxGameQuizz/admin/Game/show.html.twig', ['game'=>$game]);
     }
     
-    /**
-     * @Route("/game_{id}/edit", methods={"GET","POST"}, name="algq_admin_game_edit")
-     */
+    #[Route(path: '/game_{id}/edit', methods: ['GET', 'POST'], name: 'algq_admin_game_edit')]
     public function GameEditAction(Request $request, Game $game)
     {
       
@@ -102,9 +85,7 @@ class AdminController extends AbstractController
     }
     
 
-    /**
-     * @Route("/game/new", name="algq_admin_game_new", methods={"GET","POST"})
-     */
+    #[Route(path: '/game/new', name: 'algq_admin_game_new', methods: ['GET', 'POST'])]
     public function newGame(Request $request) 
     {
         $game = new Game();
@@ -124,9 +105,7 @@ class AdminController extends AbstractController
 
     
     
-    /**
-     * @Route("/game_{id}/delete", methods={"DELETE"}, name="algq_admin_game_delete")
-     */
+    #[Route(path: '/game_{id}/delete', methods: ['DELETE'], name: 'algq_admin_game_delete')]
     public function GameDeleteAction(Request $request,Game $game)
     {
         if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
@@ -142,9 +121,7 @@ class AdminController extends AbstractController
     
     
     
-    /**
-     * @Route("/game_{id}/new_link", name="algq_admin_game_new_link", methods={"GET","POST"})
-     */
+    #[Route(path: '/game_{id}/new_link', name: 'algq_admin_game_new_link', methods: ['GET', 'POST'])]
     public function GameNewLink(Game $game, Request $request) 
     {
         $link = new Link();
@@ -166,9 +143,7 @@ class AdminController extends AbstractController
 
     
     
-    /**
-     * @Route("/link_{id}", name="algq_admin_link_show", methods={"GET","POST"})
-     */
+    #[Route(path: '/link_{id}', name: 'algq_admin_link_show', methods: ['GET', 'POST'])]
     public function GameLinkShow(Link $link) 
     {  
         return $this->render('@AldafluxGameQuizz/admin/Link/show.html.twig', [
@@ -178,9 +153,7 @@ class AdminController extends AbstractController
     }
 
     
-    /**
-     * @Route("/game_{id}/new_board", name="algq_admin_game_new_board", methods={"GET","POST"})
-     */
+    #[Route(path: '/game_{id}/new_board', name: 'algq_admin_game_new_board', methods: ['GET', 'POST'])]
     public function GameNewBoard(Game $game, Request $request) 
     {
         $board = new Board();
@@ -202,9 +175,7 @@ class AdminController extends AbstractController
     }
 
     
-    /**
-     * @Route("/board_{id}/edit", methods={"GET","POST"}, name="algq_admin_board_edit")
-     */
+    #[Route(path: '/board_{id}/edit', methods: ['GET', 'POST'], name: 'algq_admin_board_edit')]
     public function BoardEditAction(Request $request, Board $board)
     {
         $form = $this->createForm(BoardType::class, $board );
@@ -225,9 +196,7 @@ class AdminController extends AbstractController
     
     
     
-    /**
-     * @Route("/board_{id}/delete", methods={"DELETE"}, name="algq_admin_board_delete")
-     */
+    #[Route(path: '/board_{id}/delete', methods: ['DELETE'], name: 'algq_admin_board_delete')]
     public function BoardDeleteAction(Request $request, Board $board)
     {
         
@@ -242,9 +211,7 @@ class AdminController extends AbstractController
     }
     
     
-    /**
-     * @Route("/board_{id}", methods={"GET"}, name="algq_admin_board_show")
-     */
+    #[Route(path: '/board_{id}', methods: ['GET'], name: 'algq_admin_board_show')]
     public function BoardShowAction(Board $board)
     {
         
@@ -252,9 +219,7 @@ class AdminController extends AbstractController
     }
     
     
-    /**
-     * @Route("/game_{id}/reorder", methods={"GET"}, name="algq_admin_game_reorder")
-     */
+    #[Route(path: '/game_{id}/reorder', methods: ['GET'], name: 'algq_admin_game_reorder')]
     public function GameReorderAction(Game $game)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -273,9 +238,7 @@ class AdminController extends AbstractController
     
     
     
-    /**
-     * @Route("/board_{id}/reorder", methods={"GET"}, name="algq_admin_board_reorder")
-     */
+    #[Route(path: '/board_{id}/reorder', methods: ['GET'], name: 'algq_admin_board_reorder')]
     public function BoardReorderAction(Board $board)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -292,9 +255,7 @@ class AdminController extends AbstractController
     }
     
     
-    /**
-     * @Route("/board_{id}/publish_all", name="algq_admin_board_publish_all", methods={"GET"})
-     */
+    #[Route(path: '/board_{id}/publish_all', name: 'algq_admin_board_publish_all', methods: ['GET'])]
     public function boardPublishQuestion(Board $board) 
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -307,9 +268,7 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('algq_admin_board_show', ['id'=>$board->getId()]);
     }
     
-    /**
-     * @Route("/board_{id}/unpublish_all", name="algq_admin_board_unpublish_all", methods={"GET"})
-     */
+    #[Route(path: '/board_{id}/unpublish_all', name: 'algq_admin_board_unpublish_all', methods: ['GET'])]
     public function boardUnPublishQuestion(Board $board) 
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -323,9 +282,7 @@ class AdminController extends AbstractController
     }
     
     
-    /**
-     * @Route("/board_{id}/new_question", name="algq_admin_board_new_question", methods={"GET","POST"})
-     */
+    #[Route(path: '/board_{id}/new_question', name: 'algq_admin_board_new_question', methods: ['GET', 'POST'])]
     public function BoardNewQuestion(Board $board, Request $request) 
     {
         $fields=$this->parameter->Get("aldaflux_game_quizz.fields");
@@ -380,18 +337,14 @@ class AdminController extends AbstractController
 
     
     
-    /**
-     * @Route("/question_{id}", methods={"GET"}, name="algq_admin_question_show")
-     */
+    #[Route(path: '/question_{id}', methods: ['GET'], name: 'algq_admin_question_show')]
     public function QuestionShowAction(Question $question)
     {
         return $this->render('@AldafluxGameQuizz/admin/Question/show.html.twig', ['question'=>$question, "fields"=>$this->parameter->Get("aldaflux_game_quizz.fields")]);
     }
      
 
-    /**
-     * @Route("/question_{id}/reorder", methods={"GET"}, name="algq_admin_question_reorder")
-     */
+    #[Route(path: '/question_{id}/reorder', methods: ['GET'], name: 'algq_admin_question_reorder')]
     public function QuestionReorderAction(Question $question)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -409,30 +362,27 @@ class AdminController extends AbstractController
     
     
     /**
-     * @Route("/reorderall", methods={"GET"}, name="algq_admin_")
-   
-    public function reodredAll()
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        
-        foreach ($this->GetEm()->getRepository(Question::class)->findAll() as $question)
+         * @Route("/reorderall", methods={"GET"}, name="algq_admin_")
+       
+        public function reodredAll()
         {
-            $iiis=range(1, $question->getAnswersCount());
-            shuffle($iiis); 
-            foreach ($question->getAnswers() as $answer)
+            $entityManager = $this->getDoctrine()->getManager();
+            
+            foreach ($this->GetEm()->getRepository(Question::class)->findAll() as $question)
             {
-                $answer->setOrdre(array_pop($iiis));
-                $entityManager->persist($answer);
+                $iiis=range(1, $question->getAnswersCount());
+                shuffle($iiis); 
+                foreach ($question->getAnswers() as $answer)
+                {
+                    $answer->setOrdre(array_pop($iiis));
+                    $entityManager->persist($answer);
+                }
+                $entityManager->flush();
             }
-            $entityManager->flush();
-        }
-        $this->addFlash('success', 'Les réponses ont été mélangées');
-        return $this->redirectToRoute('algq_admin_homepage');
-    }*/
-    
-    /**
-     * @Route("/question_{id}/shuffle", methods={"GET"}, name="algq_admin_question_shuffle")
-     */
+            $this->addFlash('success', 'Les réponses ont été mélangées');
+            return $this->redirectToRoute('algq_admin_homepage');
+        }*/
+    #[Route(path: '/question_{id}/shuffle', methods: ['GET'], name: 'algq_admin_question_shuffle')]
     public function QuestionShuffleAction(Question $question)
     {
         $entityManager = $this->getDoctrine()->getManager();
@@ -452,9 +402,7 @@ class AdminController extends AbstractController
     
     
     
-    /**
-     * @Route("/question_{id}/edit", methods={"GET","POST"}, name="algq_admin_question_edit")
-     */
+    #[Route(path: '/question_{id}/edit', methods: ['GET', 'POST'], name: 'algq_admin_question_edit')]
     public function QuestionEditAction(Request $request, Question $question)
     {
         $fields=$this->parameter->Get("aldaflux_game_quizz.fields");
@@ -539,9 +487,7 @@ class AdminController extends AbstractController
     }
     
     
-    /**
-     * @Route("/question_{id}/delete", methods={"DELETE"}, name="algq_admin_question_delete")
-     */
+    #[Route(path: '/question_{id}/delete', methods: ['DELETE'], name: 'algq_admin_question_delete')]
     public function QuestionDeleteAction(Request $request, Question $question)
     {
         
@@ -574,9 +520,7 @@ class AdminController extends AbstractController
     
     
     
-    /**
-     * @Route("/question_{id}/new_answer", name="algq_admin_question_new_answer", methods={"GET","POST"})
-     */
+    #[Route(path: '/question_{id}/new_answer', name: 'algq_admin_question_new_answer', methods: ['GET', 'POST'])]
     public function QuestionNewAnswer(Question $question, Request $request) 
     {
         
@@ -616,18 +560,14 @@ class AdminController extends AbstractController
     }
 
 
-    /**
-     * @Route("/answer_{id}", methods={"GET"}, name="algq_admin_answer_show")
-     */
+    #[Route(path: '/answer_{id}', methods: ['GET'], name: 'algq_admin_answer_show')]
     public function AnswerShowAction(Answer $answer)
     {
         return $this->render('@AldafluxGameQuizz/admin/Answer/show.html.twig', ['answer'=>$answer, 'question'=>$answer->getQuestion()]);
     }
              
       
-    /**
-     * @Route("/answer_{id}/edit", methods={"GET","POST"}, name="algq_admin_answer_edit")
-     */
+    #[Route(path: '/answer_{id}/edit', methods: ['GET', 'POST'], name: 'algq_admin_answer_edit')]
     public function AnswerEditAction(Request $request, Answer $answer)
     {
         $question=$answer->GetQuestion();
@@ -664,9 +604,7 @@ class AdminController extends AbstractController
     
     
     
-    /**
-     * @Route("/answer_{id}/delete", methods={"DELETE"}, name="algq_admin_answer_delete")
-     */
+    #[Route(path: '/answer_{id}/delete', methods: ['DELETE'], name: 'algq_admin_answer_delete')]
     public function AnswerDeleteAction(Request $request, Answer $answer)
     {
         

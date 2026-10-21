@@ -69,7 +69,7 @@ class SoundGenereCommand extends Command
         putenv("GOOGLE_APPLICATION_CREDENTIALS=".$this->googleJson);
         
         $forceRewrite=true;
-        $questions = $this->questionRepo->findAll([], ['id' => 'ASC']);
+        $questions = $this->questionRepo->findAll();
         foreach ($questions as $question)
         {
             
@@ -122,18 +122,18 @@ class SoundGenereCommand extends Command
         return Command::SUCCESS;
     }
 
-    function GetFolderPublic()
+    public function GetFolderPublic()
     {
         return($this->parameterBag->get('kernel.project_dir')."/public/");
     }
     
-    function fileExist($file)
+    public function fileExist($file)
     {
         return(file_exists($this->GetFolderPublic().$file));
     }
     
     
-    function genereSound($texte,$file)
+    public function genereSound($texte,$file)
     {
         $textToSpeechClient = new TextToSpeechClient();
         $input = new SynthesisInput();

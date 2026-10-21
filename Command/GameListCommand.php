@@ -18,12 +18,10 @@ class GameListCommand extends Command
     protected static $defaultName = 'game:list';
  
     private $gameRepo;
-    private $em;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
         parent::__construct();
-        $this->em = $em;
         $this->gameRepo =  $this->em->getRepository(Game::class);
     }
 

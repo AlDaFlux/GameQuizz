@@ -5,8 +5,9 @@
         "keywords": ["api", "quizz", "game"],
         "license": "GPL-3.0+",
         "require": {
-            "php": ">=7.3.2",
-            "symfony/framework-bundle": ">=5.2",
+            "php": ">=8.1",
+            "symfony/framework-bundle": "^6.4|^7.0",
+            "symfony/doctrine-bridge": "^6.4|^7.0",
 	    "twig/twig": "*",
             "doctrine/doctrine-bundle": "*",
             "google/cloud-text-to-speech": "*",

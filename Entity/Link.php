@@ -9,55 +9,45 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="algq_link")
- */
-class Link implements \JsonSerializable
+#[ORM\Entity]
+#[ORM\Table(name: 'algq_link')]
+class Link implements \JsonSerializable, \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
      
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
     
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $url;
     
     
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $logo;
     
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Game", inversedBy="links")
-     */
+    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'links')]
     private $game;
     
     
-    /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="links")
-     */
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'links')]
     private $question;
 
     public function __construct()

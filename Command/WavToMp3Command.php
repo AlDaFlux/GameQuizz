@@ -25,12 +25,10 @@ class WavToMp3Command extends Command
     
     private $questionRepo;
     private $answerRepo;
-    private $em;
 
-    public function __construct(EntityManagerInterface $em,ParameterBagInterface $parameterBag)
+    public function __construct(private readonly EntityManagerInterface $em,ParameterBagInterface $parameterBag)
     {
         parent::__construct();
-        $this->em = $em;
         $this->parameterBag = $parameterBag;
         $this->questionRepo =  $this->em->getRepository(Question::class);
         $this->answerRepo =  $this->em->getRepository(Answer::class);
@@ -117,29 +115,29 @@ HELP
         }
     }
 
-    function GetFolderPublic()
+    public function GetFolderPublic()
     {
         return($this->parameterBag->get('kernel.project_dir')."/public/");
     }
     
-    function fileExist($file)
+    public function fileExist($file)
     {
         return(file_exists($this->GetFolderPublic().$file));
     }
     
-    function mp3Exist($file)
+    public function mp3Exist($file)
     {
         return(file_exists( $this->GetFolderPublic().$this->getMp3FromWav($file)));
     }
     
-    function getMp3FromWav($file)
+    public function getMp3FromWav($file)
     {
         return(str_replace(".wav", ".mp3", $file));
     }
     
-    function isWav($file)
+    public function isWav($file)
     {
-        return(substr($file, -4)==".wav");
+        return(str_ends_with($file, ".wav"));
     }
     
 

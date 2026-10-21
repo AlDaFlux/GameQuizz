@@ -10,63 +10,49 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 
-/**
- * @ORM\Entity(repositoryClass="Aldaflux\GameQuizzBundle\Repository\GameRepository")
- * @ORM\Table(name="algq_game")
- */
-class Game implements \JsonSerializable
+#[ORM\Entity(repositoryClass: \Aldaflux\GameQuizzBundle\Repository\GameRepository::class)]
+#[ORM\Table(name: 'algq_game')]
+class Game implements \JsonSerializable, \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
    
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
     
     
     
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Gedmo\Slug(fields={"name"})
-     */
     #[Gedmo\Slug(fields: ['name'])]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $slug;
     
     
     /**
      * @var string
-     *
-     * @ORM\Column(type="string", nullable=true)
      */
+    #[ORM\Column(type: 'string', nullable: true)]
     private $soustitre;
     
 
-    /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="game")
-     * @ORM\OrderBy({"ordre": "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'game')]
+    #[ORM\OrderBy(['ordre' => 'ASC'])]
     private $questions;
     
-    /**
-     * @ORM\OneToMany(targetEntity="Board", mappedBy="game")
-     * @ORM\OrderBy({"ordre": "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: Board::class, mappedBy: 'game')]
+    #[ORM\OrderBy(['ordre' => 'ASC'])]
     private $boards;
     
 
-    /**
-     * @ORM\OneToMany(targetEntity="Link", mappedBy="game")
-     */
+    #[ORM\OneToMany(targetEntity: Link::class, mappedBy: 'game')]
     private $links;
 
     

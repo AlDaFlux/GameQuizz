@@ -26,28 +26,14 @@ class BuildCordovaCommand extends Command
  
     private $game;
     private $gameRepo;
-    private $em;
     private $container;
-    private $templating;
     private $outputFolder;
-    private $serializer;
 
-    public function __construct(EntityManagerInterface $em,Environment $templating, SerializerInterface $serializer)
+    public function __construct(private readonly EntityManagerInterface $em,private readonly Environment $templating, private readonly SerializerInterface $serializer)
     {
         parent::__construct();
-        $this->em = $em;
-//        $this->container = $container;
-        $this->templating = $templating;
          
         $this->gameRepo =  $this->em->getRepository(Game::class);
-        
-        /*
-        $encoders = [new  JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $this->serializer = new Serializer($normalizers, $encoders);
-        */
-        
-        $this->serializer = $serializer;
 
     }
 
@@ -157,7 +143,7 @@ HELP
     }
     
     
-   function templating($template)
+   public function templating($template)
    {
         $result = $this->templating->render($template, ["game"=>$this->game,"cordova"=>true]);
 //        $result= str_replace("src='/build/", "src='", $result);

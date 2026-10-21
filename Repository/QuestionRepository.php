@@ -25,9 +25,9 @@ class QuestionRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
-     
+
     }
-    
+
     */
     
 }

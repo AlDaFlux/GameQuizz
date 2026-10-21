@@ -4,7 +4,7 @@ namespace Aldaflux\GameQuizzBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 
 
 
@@ -27,11 +27,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class GameController extends AbstractController
 {
 
-    private $em;
-    
-    public function __construct(EntityManager $em)
+    public function __construct(private readonly EntityManager $em)
     {
-        $this->em=$em;
     }
     
     public function GetEm()
@@ -40,9 +37,7 @@ class GameController extends AbstractController
     }
      
         
-    /**
-     * @Route("/", name="algq_homepage")
-     */
+    #[Route(path: '/', name: 'algq_homepage')]
     public function indexAction()
     {
         $defaultGame= $this->GetEm()->getRepository(Game::class)->findDefault();
@@ -57,9 +52,7 @@ class GameController extends AbstractController
     }
         
         
-    /**
-     * @Route("/index.html", name="algq_homepage_2")
-     */
+    #[Route(path: '/index.html', name: 'algq_homepage_2')]
     public function index2Action()
     {
         
@@ -68,9 +61,7 @@ class GameController extends AbstractController
         return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ['game'=>$defaultGame]);
     }
         
-    /**
-     * @Route("/fini.html", name="algq_fini")
-     */
+    #[Route(path: '/fini.html', name: 'algq_fini')]
     public function finiAction()
     {
         return $this->render('@AldafluxGameQuizz/game/endpage/fini.html.twig');
@@ -78,9 +69,7 @@ class GameController extends AbstractController
     
     
 
-    /**
-     * @Route("/game_{id}.json", methods={"GET"}, name="algq_game_json")
-     */
+    #[Route(path: '/game_{id}.json', methods: ['GET'], name: 'algq_game_json')]
     public function GameShowAction(Game $game)
     {
         foreach ($game->getBoards() as $board)
@@ -104,29 +93,24 @@ class GameController extends AbstractController
     
 
     
-    /**
-     * @Route("/game_{game}/quesion_{question}.init.js", methods={"GET"}, name="algq_game_init_js_question")
-     * @ParamConverter("game", options={"mapping": {"game": "id"}})
-     * @ParamConverter("question", options={"mapping": {"question": "id"}})
-     */
-    public function GameInitQuestionAction(Game $game, Question $question)
+    #[Route(path: '/game_{game}/quesion_{question}.init.js', methods: ['GET'], name: 'algq_game_init_js_question')]
+    public function GameInitQuestionAction(
+        #[MapEntity(mapping: ['game' => 'id'])] Game $game,
+        #[MapEntity(mapping: ['question' => 'id'])] Question $question
+    )
     {
         return $this->render('@AldafluxGameQuizz/game/game/init.js.twig', ["game"=>$game, "question"=>$question]);
     }
 
     
-    /**
-     * @Route("/game_{game}/init.js", methods={"GET"}, name="algq_game_init_js")
-     */
+    #[Route(path: '/game_{game}/init.js', methods: ['GET'], name: 'algq_game_init_js')]
     public function GameInitAction(Game $game)
     {
         return $this->render('@AldafluxGameQuizz/game/game/init.js.twig', ["game"=>$game]);
     }
 
 
-    /**
-     * @Route("/{slug}", name="algq_play_game")
-     */
+    #[Route(path: '/{slug}', name: 'algq_play_game')]
     public function PlayGameAction(Game $game)
     {
         return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ["game"=>$game]);
@@ -134,12 +118,11 @@ class GameController extends AbstractController
         
     
 
-    /**
-     * @Route("/{slug}/question_{id}", name="algq_play_question")
-     * @ParamConverter("game", options={"mapping": {"slug": "slug"}})
-     * @ParamConverter("Question", options={"mapping": {"id": "id"}})
-     */
-    public function PlayQuestionAction(Game $game,Question $question)
+    #[Route(path: '/{slug}/question_{id}', name: 'algq_play_question')]
+    public function PlayQuestionAction(
+        #[MapEntity(mapping: ['slug' => 'slug'])] Game $game,
+        #[MapEntity(mapping: ['id' => 'id'])] Question $question
+    )
     {
         
         return $this->render('@AldafluxGameQuizz/game/game/index.html.twig', ["game"=>$game,"question"=>$question]);

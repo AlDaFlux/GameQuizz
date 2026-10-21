@@ -25,12 +25,10 @@ class SoundTestFileCommand extends Command
     
     private $questionRepo;
     private $answerRepo;
-    private $em;
 
-    public function __construct(EntityManagerInterface $em,ParameterBagInterface $parameterBag)
+    public function __construct(private readonly EntityManagerInterface $em,ParameterBagInterface $parameterBag)
     {
         parent::__construct();
-        $this->em = $em;
         $this->parameterBag = $parameterBag;
         $this->questionRepo =  $this->em->getRepository(Question::class);
         $this->answerRepo =  $this->em->getRepository(Answer::class);
@@ -125,12 +123,12 @@ HELP
         return Command::SUCCESS;
     }
 
-    function GetFolderPublic()
+    public function GetFolderPublic()
     {
         return($this->parameterBag->get('kernel.project_dir')."/public/");
     }
     
-    function fileExist($file)
+    public function fileExist($file)
     {
         return(file_exists($this->GetFolderPublic().$file));
     }

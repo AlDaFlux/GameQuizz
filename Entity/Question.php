@@ -8,25 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity(repositoryClass="Aldaflux\GameQuizzBundle\Repository\QuestionRepository")
- * @ORM\Table(name="algq_question")
- */
-class Question implements \JsonSerializable
+#[ORM\Entity(repositoryClass: \Aldaflux\GameQuizzBundle\Repository\QuestionRepository::class)]
+#[ORM\Table(name: 'algq_question')]
+class Question implements \JsonSerializable, \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
 
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Link", inversedBy="question")
-     */
+    #[ORM\ManyToOne(targetEntity: Link::class, inversedBy: 'question')]
     private $links;
     
 
@@ -69,127 +64,91 @@ class Question implements \JsonSerializable
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
     
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Game", inversedBy="questions")
-     */
+    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'questions')]
     private $game;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Board", inversedBy="questions")
-     */
+    #[ORM\ManyToOne(targetEntity: Board::class, inversedBy: 'questions')]
     private $board;
     
  
     
     
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $ordre;
     
 
     
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Gedmo\Slug(fields={"name"})
-     */
     #[Gedmo\Slug(fields: ['name'])]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $slug;
     
 
     
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private $questionText;
 
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: 'text', nullable: true)]
     private $answerText;
 
 
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $questionVideo;
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $questionVideoLink;
     
     
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $questionAudio;
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answerAudio;
     
     
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answerVideo;
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answerVideoLink;
     
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $questionVideoYoutube;
     
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answerVideoYoutube;
     
     
     
-        /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+        #[ORM\Column(type: 'text', nullable: true)]
     private $answerPlusText;
 
     
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $answerPlusAudio;
     
     
     
     
-    /**
-     * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
-     * @ORM\OrderBy({"ordre": "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question')]
+    #[ORM\OrderBy(['ordre' => 'ASC'])]
     private $answers;
 
     public function __construct()
@@ -220,9 +179,8 @@ class Question implements \JsonSerializable
 
      /**
      * @var bool
-     *
-     * @ORM\Column(type="boolean")
      */
+    #[ORM\Column(type: 'boolean')]
     private $published;
     
     
@@ -483,14 +441,14 @@ class Question implements \JsonSerializable
         return $this;
     }    
 
-    function getNextQuestionPublishedId()
+    public function getNextQuestionPublishedId()
     {
         $q=$this->getNextQuestionPublished();
         if ($q) return($this->getNextQuestionPublished()->GetId());
     }
     
     
-    function getNextQuestionBoadId()
+    public function getNextQuestionBoadId()
     {
         $nextQuestion=$this->getNextQuestionPublished();
         if ($nextQuestion)
@@ -500,7 +458,7 @@ class Question implements \JsonSerializable
     }
     
     
-    function getNextQuestionPublished()
+    public function getNextQuestionPublished()
     {
         if ($this->getOrdre() < $this->getBoard()->getQuestionsPublishedCount())
         {

@@ -18,45 +18,35 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="algq_board")
- */
-class Board implements \JsonSerializable
+#[ORM\Entity]
+#[ORM\Table(name: 'algq_board')]
+class Board implements \JsonSerializable, \Stringable
 {
     /**
      * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private $id;
    
 
     /**
      * @var string
-     *
-     * @ORM\Column(type="string")
      */
+    #[ORM\Column(type: 'string')]
     private $name;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: 'integer')]
     private $ordre;
     
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="Question", mappedBy="board")
-     * @ORM\OrderBy({"ordre": "ASC"})
-     */
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'board')]
+    #[ORM\OrderBy(['ordre' => 'ASC'])]
     private $questions;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Game", inversedBy="boards")
-     */
+    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'boards')]
     private $game;
     
     

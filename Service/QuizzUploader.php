@@ -36,7 +36,7 @@ class QuizzUploader
         {
             $file->move($this->getSoundDirectoryFullPath().$relativePath, $fileName);
         } 
-        catch (FileException $e) 
+        catch (FileException) 
         {
           
         }
@@ -53,7 +53,7 @@ class QuizzUploader
         {
             $file->move($this->getVideoDirectoryFullPath().$relativePath, $fileName);
         } 
-        catch (FileException $e) 
+        catch (FileException) 
         {
           
         }
